@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-content">
+                    <form class="form-horizontal m-t" id="signupForm">
+                        <input th:value="${liquor.id}" name="id" type="hidden" />
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Company：</label>
+                            <div class="col-sm-4">
+                                <input id="company" th:value="${liquor.company}" name="company" class="form-control" type="text">
+                            </div>
+                            <label class="col-sm-2 control-label">Address：</label>
+                            <div class="col-sm-4">
+                                <input id="address" th:value="${liquor.address}" name="address" class="form-control"
+                                       type="text">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-8">
+                                <button type="button" class="layui-btn" id="imageFile">
+                                    <i class="fa fa-cloud"></i> Upload File
+                                </button>
+                                <input id="picture" name="picture" class="form-control"
+                                       type="hidden" th:value="${liquor.picture}">
+                                <img th:src="${liquor.picture}" id="uploadPic" th:style="${liquor.picture != null}?'':'display:none;'" width="100px" height="100px"/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-1 control-label">Mobile：</label>
+                            <div class="col-sm-4">
+                                <input id="mobile" name="mobile" class="form-control" type="text" th:value="${liquor.mobile}">
+                            </div>
+                            <label class="col-sm-1 control-label">Phone：</label>
+                            <div class="col-sm-4">
+                                <input id="phone" name="phone" class="form-control" type="text" th:value="${liquor.phone}">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-1 control-label">Email：</label>
+                            <div class="col-sm-4">
+                                <input id="email" name="email" class="form-control" type="text" th:value="${liquor.email}">
+                            </div>
+                            <label class="col-sm-1 control-label">Website：</label>
+                            <div class="col-sm-4">
+                                <input id="website" name="website" class="form-control" type="text" th:value="${liquor.website}">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <input id="introduce" name="introduce" type="hidden" th:value="${liquor.introduce}">
+                            <label class="col-sm-2 control-label">Introduce：</label>
+                            <div class="col-sm-12">
+                                <div class="ibox-content no-padding">
+                                    <div id="content_sn" class="summernote"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="text-right form-group">
+                            <button type="button"
+                                    class="btn btn-primary waves-effect waves-light"
+                                    onclick="update()">Save</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div th:include="include::footer"></div>
+<link href="/css/layui.css" rel="stylesheet">
+<script src="/js/plugins/layer/layer.min.js"></script>
+<script src="/js/layui.js"></script>
+<script type="text/javascript" src="/js/appjs/account/label/edit.js">
+</script>
+</body>
+</html>

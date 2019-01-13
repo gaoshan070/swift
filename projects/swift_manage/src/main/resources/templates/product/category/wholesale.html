@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-content">
+                    <form class="form-horizontal m-t" id="signupForm">
+                        <input type="hidden" th:value="${cId}" id="catalogId" name="catalogId">
+                        <input type="hidden" value="0" id="id" name="id">
+                        <div class="form-group">
+                            <label class="col-sm-1 control-label">Quantity：</label>
+                            <div class="col-sm-2">
+                                <input id="amount" name="amount" class="form-control" type="text">
+                            </div>
+                            <label class="col-sm-1 control-label">Price：</label>
+                            <div class="col-sm-2">
+                                <input placeholder="$" id="price" name="price" class="form-control" type="text">
+                            </div>
+                            <label class="col-sm-3 control-label">Price with bottle：</label>
+                            <div class="col-sm-2">
+                                <input placeholder="$" id="priceWithBottle" name="priceWithBottle" class="form-control" type="text">
+                            </div>
+                            <div class="col-sm-1">
+                                <button type="submit" class="btn btn-primary">Save</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <table id="exampleTable" data-mobile-responsive="true">
+            </table>
+        </div>
+    </div>
+
+</div>
+<div>
+    <script type="text/javascript">
+        var s_edit_h = 'hidden';
+    </script>
+</div>
+<div shiro:hasPermission="product:category:wholesale">
+    <script type="text/javascript">
+        s_edit_h = '';
+    </script>
+</div>
+<div th:include="include::footer"></div>
+<script type="text/javascript" src="/js/appjs/product/category/wholesale.js">
+</script>
+</body>
+</html>

@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+<div class="wrapper wrapper-content ">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-content">
+                    <form class="form-horizontal m-t" id="signupForm">
+                        <input type="hidden" id="orderId" th:value="${order.id}" />
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Username：</label>
+                            <div class="col-sm-4">
+                                <input id="jobName" name="jobName" class="form-control"
+                                       type="text" readonly th:value="${order.account}">
+                            </div>
+                            <label class="col-sm-2 control-label">Order ID：</label>
+                            <div class="col-sm-4">
+                                <input id="jobGroup" name="jobGroup" class="form-control"
+                                       type="text" readonly th:value="${order.id}">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Total：</label>
+                            <div class="col-sm-4">
+                                <input id="beanClass" name="beanClass" class="form-control"
+                                       type="text" readonly th:value="${order.amount}">
+                            </div>
+                            <label class="col-sm-2 control-label">Order date：</label>
+                            <div class="col-sm-4">
+                                <input id="cronExpression" name="cronExpression"
+                                       class="form-control" readonly type="text" th:value="${order.createdate}">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Shipping Fee：</label>
+                            <div class="col-sm-4">
+                                <input id="shippingFee" name="beanClass" class="form-control"
+                                       type="text" readonly th:value="${order.fee}">
+                            </div>
+                            <label class="col-sm-2 control-label">Paymethod：</label>
+                            <div class="col-sm-4" th:switch="${order.payType}">
+                                <input th:case="'60'" readonly name="beanClass" class="form-control"
+                                                               type="text" value="Paypal">
+                                <input th:case="'70'" readonly name="beanClass" class="form-control"
+                                       type="text" value="Bank Transfer">
+                            </div>
+                        </div>
+                    </form>
+                    <table id="detailTable" data-mobile-responsive="true">
+                    </table>
+                    <div class="bootstrap-table">
+                        <div class="fixed-table-body">
+                            <div class="fixed-table-container" style="padding-bottom: 0px;">
+                                <div class="fixed-table-body">
+                                    <table id="addressTable" data-mobile-responsive="true" class="table table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th style="" tabindex="0">
+                                                    <div class="th-inner ">Billing Address</div>
+                                                    <div class="fht-cell"></div>
+                                                </th>
+                                                <th style="" tabindex="0">
+                                                    <div class="th-inner ">Shipping Address</div>
+                                                    <div class="fht-cell"></div>
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>
+                                                    <div th:text="|${billing.firstName} ${billing.surName}|"></div><br/>
+                                                    <div th:text="${billing.address}"></div><br/>
+                                                    <div th:text="|${billing.city}  ${billing.postCode}|"></div><br/>
+                                                    <div th:text="${billing.region}"></div><br/>
+                                                    <div th:text="${billing.country}"></div>
+                                                </td>
+                                                <td>
+                                                    <div th:text="${shipping.shipName}"></div><br/>
+                                                    <div th:text="${shipping.shipAddress}"></div><br/>
+                                                    <div th:text="|${shipping.city} ${shipping.zip}|"></div><br/>
+                                                    <div th:text="${shipping.province}"></div><br/>
+                                                    <div th:text="${shipping.area}"></div>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div th:include="include::footer"></div>
+<script type="text/javascript" src="/js/appjs/product/order/detail.js"></script>
+</body>
+</html>

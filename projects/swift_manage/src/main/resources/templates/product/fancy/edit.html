@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="zh_CN" xmlns:th="http://www.thymeleaf.org"
+      xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<meta charset="utf-8">
+<head th:include="product/fancy/include :: header"></head>
+<body class="gray-bg">
+<div class="wrap" id="fpd-product-builder">
+
+    <h2 class="fpd-clearfix">
+        Product Builder
+    </h2>
+    <div class="fpd-panel radykal-clearfix" id="fpd-product-builder-head">
+        <p class="description">Select the view of a product</p>
+        <select id="fpd-view-switcher" class="radykal-select2" style="width: 400px;">
+            <optgroup th:each="item : ${fancyProducts}" th:attr="label=${item.id}" th:attrappend="label=${'-' + item.title}" th:id="${item.id}">';
+                <option th:each="view:${item.views}" th:value="${view.id}" th:text="@{${view.title}+' - ('+${item.title}+')'}" selected(${request_view_id}, ${view.id}, false)></option>
+            </optgroup>
+        </select>
+
+        <div class="fpd-right">
+            <a href="#" id="fpd-edit-view-options" class="button-secondary">
+                Edit View Options
+            </a>
+        </div>
+
+        <script type="text/javascript">
+
+            var fpdGlobalProductBuilderOpts = {
+                stageWidthTemp: 600,
+                stageHeightTemp: 400
+            };
+
+        </script>
+
+    </div><!-- head panel -->
+
+    <div id="fpd-manage-elements" class="fpd-panel radykal-clearfix">
+
+        <div class="fpd-ui-blocker"></div>
+        <h3 class="radykal-clearfix">
+            Layer
+            <a href="#" id="fpd-save-layers" class="button-primary right">Save</a>
+        </h3>
+        <div id="fpd-add-element">
+            <a href="#" class="add-new-h2" id="fpd-add-image-element">Add Picture</a>
+            <a href="#" class="add-new-h2" id="fpd-add-upload-zone">Add upload zone</a>
+            <a href="#" class="add-new-h2" id="fpd-add-text-element">Add Text</a>
+            <a href="#" class="add-new-h2" id="fpd-add-curved-text-element">Curve Text</a>
+            <a href="#" class="add-new-h2" id="fpd-add-text-box-element">Text Area</a>
+        </div>
+
+        <form method="post" id="fpd-submit">
+            <input type="submit" class="fpd-hidden" name="save_elements" />
+
+
+            <input th:value="${request_view_id}" type="hidden" name="view_id" />
+            <p class="description">Drag to change order</p>
+            <div id="fpd-elements-list" class="fpd-clearfix">
+
+            </div>
+
+        </form>
+
+    </div><!-- Manage elements -->
+
+    <!-- Product Stage -->
+    <div class="fpd-panel">
+
+        <div id="fpd-edit-parameters">
+            <div th:include="product/fancy/include :: fancyTab"></div>
+        </div>
+
+        <h3>Canvas
+            <span class="description">
+            <span id="fpd-stage-width-label">960</span>px *
+            <span id="fpd-stage-height-label">500</span>px
+        </span>
+        </h3>
+
+        <div class="fpd-clearfix">
+
+            <div id="fpd-element-toolbar" class="fpd-left">
+							<span id="fpd-undo" class="fpd-admin-tooltip radykal-disabled" title="Undo">
+								<i class="fpd-admin-icon-undo"></i>
+							</span>
+                <span id="fpd-redo" class="fpd-admin-tooltip radykal-disabled" title="Redo">
+								<i class="fpd-admin-icon-redo"></i>
+							</span>
+                <span id="fpd-center-horizontal" class="fpd-admin-tooltip radykal-disabled fpd-element-toggle" title="Center Horizontal">
+								<i class="fpd-admin-icon-align-horizontal-middle"></i>
+							</span>
+                <span id="fpd-center-vertical" class="fpd-admin-tooltip radykal-disabled fpd-element-toggle" title="Center Vertical">
+								<i class="fpd-admin-icon-align-vertical-middle"></i>
+							</span>
+                <span id="fpd-ruler" class="fpd-admin-tooltip" title="Ruler" data-action="ruler">
+								<i class="fpd-admin-icon-ruler"></i>
+							</span>
+                <div class="fpd-button-modal">
+                    <span id="fpd-edit-mask" class="fpd-toolbar-btn fpd-toggle">Edit Mask</span>
+                    <div id="fpd-mask-toolbar" class="fpd-dialog">
+                        <p class="description">Use a SVG with one path as mask.</p>
+                        <table>
+                            <tr>
+                                <td>
+                                    Image URL
+                                </td>
+                                <td>
+                                    <div class="fpd-single-image-upload">
+                                        <span class="fpd-remove"><span class="dashicons dashicons-minus"></span></span>
+                                        <input type="hidden" name="url" />
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Left</td>
+                                <td><input type="number" name="left" placeholder="0" min="0" /></td>
+                            </tr>
+                            <tr>
+                                <td>Top</td>
+                                <td><input type="number" name="top" placeholder="0" min="0" /></td>
+                            </tr>
+                            <tr>
+                                <td>Scale-X</td>
+                                <td><input type="number" name="scaleX" placeholder="1" min="0" step="0.01" /></td>
+                            </tr>
+                            <tr>
+                                <td>Scale-Y</td>
+                                <td><input type="number" name="scaleY" placeholder="1" min="0" step="0.01" /></td>
+                            </tr>
+                        </table>
+                        <button id="fpd-save-mask-options" class="button-secondary">Save</button>
+                        <div class="fpd-ui-blocker"></div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="fpd-left" style="margin-left: 60px; padding-top: 8px;">
+
+                <label class="radykal-clearfix fpd-admin-tooltip" title="Only a helper tool for this product builder, does not influence the frontend!">
+                    <span class="description fpd-left" style="margin-right: 10px;">Responsive</span>
+                    <div class="radykal-onoffswitch fpd-left">
+                        <input type="checkbox" class="radykal-onoffswitch-checkbox" id="fpd-responsive-stage-switch" >
+                        <label class="radykal-onoffswitch-label" for="fpd-responsive-stage-switch"></label>
+                    </div>
+                </label>
+
+            </div>
+
+        </div>
+
+        <div id="fpd-preview-wrapper" data-stagewidth="960" data-stageheight="500" th:attr="data-viewid=${request_view_id}" data-viewmask=''></div>
+
+    </div>
+
+</div>
+</body>
+
+</html>

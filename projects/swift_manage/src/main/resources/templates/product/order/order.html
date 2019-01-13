@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="zh_CN" xmlns:th="http://www.thymeleaf.org"
+      xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<meta charset="utf-8">
+<head th:include="include::header"></head>
+<body class="gray-bg">
+<div class="wrapper wrapper-content ">
+    <div class="col-sm-12">
+        <div class="ibox">
+            <div class="ibox-body">
+                <div class="fixed-table-toolbar">
+                    <div class="columns pull-right">
+                        <button class="btn btn-success" onclick="reLoad()">Search</button>
+                    </div>
+
+                    <div class="columns pull-right col-md-2 nopadding">
+                        <input id="orderId" type="text" class="form-control"
+                               placeholder="OrderID">
+                    </div>
+                    <div class="columns pull-right col-md-2 nopadding">
+                        <select id="orderStatus" data-placeholder="Payment Status" class="form-control chosen-select"
+                                tabindex="2" style="width: 100%">
+                            <option value="">Choose order status</option>
+                            <option value="y">Paid</option>
+                            <option value="n">Unpaid</option>
+                        </select>
+                    </div>
+                    <div class="columns pull-right col-md-2 nopadding">
+                        <select id="paymethod" data-placeholder="Payment Type" class="form-control chosen-select"
+                                tabindex="2" style="width: 100%">
+                            <option value="">Choose payment type</option>
+                            <option value="60">Paypal</option>
+                            <option value="70">Bank Transfer</option>
+                        </select>
+                    </div>
+                </div>
+                <table id="exampleTable" data-mobile-responsive="true">
+                </table>
+            </div>
+        </div>
+    </div>
+    <!--shiro控制bootstraptable行内按钮看见性 来自bootdo的创新方案 -->
+    <div>
+        <script type="text/javascript">
+            var s_edit_h = 'hidden';
+            var s_remove_h = 'hidden';
+            var s_detail_h = 'hidden';
+        </script>
+    </div>
+    <div shiro:hasPermission="product:order:edit">
+        <script type="text/javascript">
+            s_edit_h = '';
+        </script>
+    </div>
+    <div shiro:hasPermission="product:order:detail">
+        <script type="text/javascript">
+            s_detail_h = '';
+        </script>
+    </div>
+    <div shiro:hasPermission="product:order:remove">
+        <script type="text/javascript">
+            var s_remove_h = '';
+        </script>
+    </div>
+
+</div>
+<div th:include="include::footer"></div>
+<script type="text/javascript" src="/js/appjs/product/order/order.js">
+
+</script>
+</body>
+
+</html>

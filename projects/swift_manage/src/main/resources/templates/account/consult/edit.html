@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="ibox-content">
+                <form class="form-horizontal m-t" id="signupForm">
+                    <input id="id" name="id" th:value="${consult.id}"
+                           type="hidden">
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">Username：</label>
+                        <div class="col-sm-8">
+                            <input id="name" name="name" class="form-control" type="text"
+                                   th:value="${consult.name}" readonly>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">E-mail：</label>
+                        <div class="col-sm-8">
+                            <input id="email" name="email" class="form-control" type="email"
+                                   th:value="${consult.email}" readonly>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">Website：</label>
+                        <div class="col-sm-8">
+                            <input id="website" name="website" class="form-control" type="text"
+                                   th:value="${consult.website}" readonly>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">Subject：</label>
+                        <div class="col-sm-8">
+                            <input id="subject" name="subject" class="form-control" type="text"
+                                   th:value="${consult.subject}" readonly>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">Message：</label>
+                        <div class="col-sm-8">
+                            <textarea id="message" name="message" class="layui-textarea"
+                                      th:text="${consult.message}" readonly></textarea>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div th:include="include::footer"></div>
+<link href="/css/layui.css" rel="stylesheet">
+<script type="text/javascript" src="/js/appjs/account/consult/edit.js">
+</script>
+</body>
+</html>

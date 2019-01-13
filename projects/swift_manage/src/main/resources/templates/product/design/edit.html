@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="zh_CN" xmlns:th="http://www.thymeleaf.org"
+      xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<meta charset="utf-8">
+<head th:include="include::header"></head>
+<body class="gray-bg">
+<div class="wrapper wrapper-content ">
+    <div class="row">
+        <div class="col-sm-12">
+            <div id="fpd-manage-elements" class="fpd-panel">
+                <div class="fpd-ui-blocker"></div>
+                <div class="columns pull-right">
+                    <button id="fpd-save-layers" class="btn btn-success" >Save</button>
+                </div>
+                <div id="fpd-add-element">
+                    <button type="button"  class="btn btn-primary" id="fpd-add-image-element">
+                        <i class="fa fa-plus" aria-hidden="true"></i>Add Picture
+                    </button>
+                    <button type="button"  class="btn btn-primary" id="fpd-add-upload-zone">
+                        <i class="fa fa-plus" aria-hidden="true"></i>Add upload zone
+                    </button>
+                    <button type="button"  class="btn btn-primary" id="fpd-add-text-element">
+                        <i class="fa fa-plus" aria-hidden="true"></i>Add Text
+                    </button>
+                    <button type="button"  class="btn btn-primary" id="fpd-add-text-box-element">
+                        <i class="fa fa-plus" aria-hidden="true"></i>Text Area
+                    </button>
+                </div>
+                <form method="post" id="fpd-submit" class="form-horizontal m-t">
+                    <input type="button" class="fpd-hidden" name="save_elements" />
+                    <input th:value="${view.id}" type="hidden" name="view_id" />
+                    Template Title: <input type="text" name="view_title" th:value="${view.title}" placeholder="enter title" />
+                    <div id="fpd-elements-list" class="fpd-clearfix">
+
+                    </div>
+                </form>
+            </div>
+
+            <form id="fpd-elements-form" class="form-horizontal m-t">
+                <div class="ibox">
+                    <div class="ibox-body">
+                        <ul class="nav nav-tabs">
+                            <li class="active"><a data-toggle="tab" href="#tab-1"><i class="fa fa-file-text"></i>General</a>
+                            </li>
+                            <li class=""><a data-toggle="tab" href="#tab-2"><i class="fa fa-briefcase"></i>Modification</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div id="fpd-edit-parameters" class="panel-body fpd-panel">
+                        <div class="tab-content">
+                            <div class="tab-pane fade active in" id="tab-1">
+                                <table class="form-table" style="float:left;">
+                                    <tbody>
+                                    <tr>
+                                        <th>Position</th>
+                                        <td>
+                                            <label>Left: <input id="left" type="number" step="1" name="left" placeholder="0" value="" class="fpd-only-numbers"></label>
+                                            <br />
+                                            <label>Top: <input id="top" type="number" step="1" name="top" placeholder="0" value="" class="fpd-only-numbers"></label>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th>Scale</th>
+                                        <td id="fpd-scale">
+                                            <label>X: <input type="number" step="0.01" name="scaleX" placeholder="1" value="" class="fpd-only-numbers fpd-allow-dots fpd-text-hidden"></label>
+                                            <br />
+                                            <label class="radykal-disabled">Y: <input type="number" step="0.01" name="scaleY" placeholder="1" value="" class="fpd-only-numbers fpd-allow-dots fpd-text-hidden"></label>
+                                            <i class="fpd-admin-icon-lock" id="fpd-scale-locker"></i>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th>Angle</th>
+                                        <td>
+                                            <div class="radykal-input-slider radykal-clearfix">
+                                                <div></div>
+                                                <input type="number" step="1" min="0" max="359" name="angle" placeholder="0" value="0" class="fpd-only-numbers fpd-upload-zone-hidden" />
+                                            </div>
+
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+
+                                <table class="form-table">
+                                    <tbody>
+                                    <tr>
+                                        <th>
+                                            Price
+                                            <i class="fpd-admin-icon-info-outline fpd-admin-tooltip" title="Always use a dot as the decimal separator!"></i>
+                                        </th>
+                                        <td>
+                                            <input type="number" step="0.01" min="0" name="price" placeholder="0" value="" class="fpd-prevent-whitespace fpd-only-numbers fpd-allow-dots">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th>
+                                            Replace
+                                            <i class="fpd-admin-icon-info-outline fpd-admin-tooltip" title="Elements with the same replace value are replaced by each other."></i>
+                                        </th>
+                                        <td>
+                                            <input type="text" name="replace" value="" class="fpd-upload-zone-hidden large-text">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th>X-Axis Reference Point</th>
+                                        <td>
+							<span class="fpd-originX">
+								<a href="#" class="fpd-originX-left button" data-value="left">
+									<i class="fpd-admin-icon-originX-left"></i>
+								</a>
+								<a href="#" class="fpd-originX-center button" data-value="center">
+									<i class="fpd-admin-icon-originX-center"></i>
+								</a>
+								<a href="#" class="fpd-originX-right button" data-value="right">
+									<i class="fpd-admin-icon-originX-right"></i>
+								</a>
+								<input type="hidden" name="originX" value="center" class="fpd-radio-buttons" />
+							</span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th>Y-Axis Reference Point</th>
+                                        <td>
+							<span class="fpd-originY">
+								<a href="#" class="fpd-originX-left button" data-value="top">
+									<i class="fpd-admin-icon-originY-top"></i>
+								</a>
+								<a href="#" class="fpd-originX-center button" data-value="center">
+									<i class="fpd-admin-icon-originY-center"></i>
+								</a>
+								<a href="#" class="fpd-originX-right button" data-value="bottom">
+									<i class="fpd-admin-icon-originY-bottom"></i>
+								</a>
+								<input type="hidden" name="originY" value="center" class="fpd-radio-buttons" />
+							</span>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <div class="tab-pane fade" id="tab-2">
+                                <table class="form-table" style="float:left;">
+                                    <tbody>
+                                    <tr>
+                                        <th><label>Removable</label></th>
+                                        <td class="radykal-radio-group-inline">
+                                            <label><input type="radio" name="removable" value="1" class="fpd-upload-zone-hidden" /> Yes</label>
+                                            <label><input type="radio" name="removable" value="0" checked="checked" class="fpd-upload-zone-hidden" /> No</label>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th><label>Draggable</label></th>
+                                        <td class="radykal-radio-group-inline">
+                                            <label><input type="radio" name="draggable" value="1"/> Yes</label>
+                                            <label><input type="radio" name="draggable" value="0" checked="checked" /> No</label>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th><label>Rotatable</label></th>
+                                        <td class="radykal-radio-group-inline">
+                                            <label><input type="radio" name="rotatable" value="1" /> Yes</label>
+                                            <label><input type="radio" name="rotatable" value="0" checked="checked" /> No</label>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th><label>Resizable</label></th>
+                                        <td class="radykal-radio-group-inline">
+                                            <label><input type="radio" name="resizable" value="1" class="fpd-text-box-hidden" /> Yes</label>
+                                            <label><input type="radio" name="resizable" value="0" checked="checked" class="fpd-text-box-hidden" /> No</label>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th><label>Layer Position Unlockable</label></th>
+                                        <td class="radykal-radio-group-inline">
+                                            <label><input type="radio" name="zChangeable" value="1" /> Yes</label>
+                                            <label><input type="radio" name="zChangeable" value="0" checked="checked" /> No</label>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                                <table class="form-table">
+                                    <tbody>
+                                    <tr>
+                                        <th><label>Stay On Top</label></th>
+                                        <td class="radykal-radio-group-inline">
+                                            <label><input type="radio" name="topped" value="1" /> Yes</label>
+                                            <label><input type="radio" name="topped" value="0" checked="checked" /> No</label>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th><label>Auto-Select</label></th>
+                                        <td class="radykal-radio-group-inline">
+                                            <label><input type="radio" name="autoSelect" value="1" /> Yes</label>
+                                            <label><input type="radio" name="autoSelect" value="0" checked="checked" /> No</label>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th>Uni-Scaling Unlockable</th>
+                                        <td class="radykal-radio-group-inline">
+                                            <label><input type="radio" name="uniScalingUnlockable" value="1" class="fpd-text-hidden" /> Yes</label>
+                                            <label><input type="radio" name="uniScalingUnlockable" value="0" checked="checked" class="fpd-text-hidden" /> No</label>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <h3>Canvas
+                <span class="description">
+                    <span id="fpd-stage-width-label">1200</span>px *
+                    <span id="fpd-stage-height-label">500</span>px
+                </span>
+            </h3>
+            <div id="fpd" data-stagewidth="1200" data-stageheight="500" th:attr="data-viewid=${view.id}">
+            </div>
+        </div>
+    </div>
+</div>
+<div th:include="include::footer"></div>
+
+<link rel="stylesheet" type="text/css" href="/product_design/css/FancyProductDesigner-all.min.css" />
+<link rel="stylesheet" type="text/css" href="/product_design/css/admin.css" />
+<link rel="stylesheet" type="text/css" href="/product_design/css/radykal-admin.css" />
+<link rel="stylesheet" type="text/css" href="/product_design/css/icon-font.css" />
+<script src="/js/jquery-ui-1.10.4.min.js" type="text/javascript"></script>
+<script src="/product_design/js/fabric.js" type="text/javascript"></script>
+<script src="/product_design/js/FancyProductDesigner-all.min.js" type="text/javascript"></script>
+<script src="/product_design/js/tagmanager.js" type="text/javascript"></script>
+<script type="text/javascript" src="/js/appjs/product/design/edit.js">
+</script>
+</body>
+</html>

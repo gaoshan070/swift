@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="ibox-content">
+                <form class="form-horizontal m-t" id="signupForm">
+                    <input id="id" name="id" th:value="${account.id}"
+                           type="hidden">
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">Nickname：</label>
+                        <div class="col-sm-8">
+                            <input id="nickName" name="nickName" class="form-control" type="text"
+                                   th:value="${account.nickName}">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">Password：</label>
+                        <div class="col-sm-4">
+                            <input id="password" name="password" class="form-control"
+                                   type="password" th:value="${account.password}" readonly>
+                        </div>
+                        <div class="col-sm-4"><button class="btn btn-primary">Reset</button></div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">E-mail：</label>
+                        <div class="col-sm-8">
+                            <input id="email" name="email" class="form-control" type="email"
+                                   th:value="${account.email}" readonly>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">Status:</label>
+                        <div class="col-sm-8">
+                            <label class="radio-inline"> <input
+                                    th:field="*{account.freeze}" type="radio" name="freeze" value="n" />
+                                Normal
+                            </label> <label class="radio-inline"> <input
+                                th:field="*{account.freeze}" type="radio" name="freeze" value="y" />
+                            Freeze
+                        </label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-8 col-sm-offset-3">
+                            <button type="submit" class="btn btn-primary">Save</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div th:include="include::footer"></div>
+<script type="text/javascript" src="/js/appjs/account/edit.js">
+</script>
+</body>
+</html>

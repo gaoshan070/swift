@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-content">
+                    <form class="form-horizontal m-t" id="signupForm">
+                        <input type="hidden" name="id" th:value="${area.id}">
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">Country Code:</label>
+                            <div class="col-sm-9">
+                                <select th:field="${area.countryCode}" th:value="${area.countryCode}" name="countryCode" class="form-control chosen-select"
+                                        tabindex="2" style="width: 20%">
+                                    <option th:selected="${area.countryCode == NZ}" value="NZ">New Zealand</option>
+                                    <option th:selected="${area.countryCode == AU}" value="AU">Australia</option>
+                                </select>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">Area：</label>
+                            <div class="col-sm-8">
+                                <input id="area" th:value="${area.area}" name="area" class="form-control"
+                                       type="text">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">Shipping Fee：</label>
+                            <div class="col-sm-8">
+                                <input id="showFee" th:value="${area.displayFee}" name="showFee" class="form-control"
+                                       type="text" placeholder="$">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-8 col-sm-offset-3">
+                                <button type="submit" class="btn btn-primary">Submit</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div th:include="include::footer"></div>
+<script type="text/javascript" src="/js/appjs/product/shippingArea/edit.js">
+</script>
+</body>
+</html>

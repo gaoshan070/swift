@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+<div class="wrapper wrapper-content ">
+    <div class="row">
+        <div class="col-sm-12">
+            <form class="form-horizontal m-t" id="signupForm">
+                <input id="productId" name="id" type="hidden" th:value="${product.id}">
+                <div class="form-group">
+                    <div class="col-sm-8">
+                        <button type="submit" class="btn btn-primary">Save</button>
+                    </div>
+                </div>
+                <div class="ibox">
+                    <div class="ibox-body">
+                        <ul class="nav nav-tabs">
+                            <li class="active"><a data-toggle="tab" href="#tab-1"><i class="fa fa-file-text"></i>General</a>
+                            </li>
+                            <li class=""><a data-toggle="tab" href="#tab-2"><i class="fa fa-briefcase"></i>Data</a>
+                            </li>
+                            <li class=""><a data-toggle="tab" href="#tab-3"><i class="fa fa-briefcase"></i>Additional Images</a>
+                            </li>
+                            <li class=""><a data-toggle="tab" href="#tab-4"><i class="fa fa-briefcase"></i>Fancy Design</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="panel-body">
+
+                        <div class="tab-content">
+                            <div class="tab-pane fade active in" id="tab-1">
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label">Title：</label>
+                                    <div class="col-sm-8">
+                                        <input id="name" name="name" th:value="${product.name}" class="form-control" type="text">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label">Main Picture：</label>
+                                    <div class="col-sm-8">
+                                        <button type="button" class="layui-btn" id="imageFile">
+                                            <i class="fa fa-cloud"></i> Upload File
+                                        </button>
+                                        <input id="picture" name="picture" class="form-control"
+                                               type="hidden" th:value="${product.picture}">
+                                        <img th:src="${product.picture}" id="uploadPic" th:style="${product.picture != null}?'':'display:none;'" width="100px" height="100px"/>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label">Category：</label>
+                                    <div class="col-sm-8">
+                                        <input id="catalogId" name="catalogId" class="hidden" th:value="${product.catalogId}"> <input
+                                            id="categoryName" name="categoryName" class="form-control" type="text"
+                                            style="cursor: pointer;" onclick="openCategory()" th:value="${product.catalogName}"
+                                            readonly="readonly" placeholder="Choose a category">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label">Price：</label>
+                                    <div class="col-sm-8">
+                                        <input id="price" name="price" class="form-control"
+                                               type="number" th:value="${product.price}">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label">Sale Price：</label>
+                                    <div class="col-sm-8">
+                                        <input id="nowPrice" name="nowPrice" class="form-control"
+                                               type="number" th:value="${product.nowPrice}">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label">isRecommend:</label>
+                                    <div class="col-sm-8">
+                                        <label class="radio-inline"> <input type="radio" th:field="*{product.isRecommend}"
+                                                                            name="isRecommend" value="1" /> Yes
+                                        </label> <label class="radio-inline"> <input type="radio" th:field="*{product.isRecommend}"
+                                                                                     name="isRecommend" value="0" /> No
+                                    </label>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label">Status:</label>
+                                    <div class="col-sm-8">
+                                        <select th:field="${product.status}" th:value="${product.status}" name="status" class="form-control chosen-select"
+                                                tabindex="2" style="width: 20%">
+                                            <option th:selected="${product.status == 1}" value="1">New</option>
+                                            <option th:selected="${product.status == 2}" value="2">For sale</option>
+                                            <option th:selected="${product.status == 3}" value="3">Off sale</option>
+                                        </select>
+                                    </label>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label">isNew:</label>
+                                    <div class="col-sm-8">
+                                        <label class="radio-inline"> <input type="radio" th:field="*{product.isnew}"
+                                                                            name="isnew" value="y" /> Yes
+                                        </label> <label class="radio-inline"> <input type="radio" th:field="*{product.isnew}"
+                                                                                     name="isnew" value="n" /> No
+                                    </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane fade" id="tab-2">
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label">Introduce：</label>
+                                    <div class="col-sm-8">
+                                        <input id="introduce" th:value="${product.introduce}" name="introduce" class="form-control" type="text">
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label">Description：</label>
+                                    <div class="col-sm-8">
+                                        <input id="description" name="description" class="form-control" type="text" th:value="${product.description}">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <!--<label-->
+                                            <!--class="col-sm-3 control-label">Bottle Content：</label>-->
+                                    <!--<div class="col-sm-8">-->
+                                        <!--<div class="ibox-content no-padding">-->
+                                            <!--<textarea th:field="*{product.bottleInfo}" class="form-control rounded-0 standardBorder" rows="5" id="bottleInfo" name="bottleInfo" ></textarea>-->
+                                        <!--</div>-->
+                                    <!--</div>-->
+
+                                    <input id="bottleInfo" name="bottleInfo" type="hidden" th:value="${product.bottleInfo}">
+                                    <label
+                                            class="col-sm-3 control-label">Bottle Content：</label>
+                                    <div class="col-sm-8">
+                                        <div class="ibox-content no-padding">
+                                            <div id="content_bottle" class="summernote"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <!--<label-->
+                                            <!--class="col-sm-3 control-label">Label Content：</label>-->
+                                    <!--<div class="col-sm-8">-->
+                                        <!--<div class="ibox-content no-padding">-->
+                                            <!--<textarea th:field=="*{product.labelInfo}" class="form-control rounded-0 standardBorder" rows="5" id="labelInfo" name="labelInfo"></textarea>-->
+                                        <!--</div>-->
+                                    <!--</div>-->
+
+                                    <input id="labelInfo" name="labelInfo" type="hidden" th:value="${product.labelInfo}">
+                                    <label
+                                            class="col-sm-3 control-label">Label Content：</label>
+                                    <div class="col-sm-8">
+                                        <div class="ibox-content no-padding">
+                                            <div id="content_label" class="summernote"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <input id="content" name="content" type="hidden" th:value="${product.content}">
+                                    <label
+                                            class="col-sm-3 control-label">Content：</label>
+                                    <div class="col-sm-8">
+                                        <div class="ibox-content no-padding">
+                                            <div id="content_sn" class="summernote"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane fade" id="tab-3">
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">Carousel Picture 1：</label>
+                                    <div class="col-sm-4">
+                                        <button type="button" class="layui-btn" id="addImg1">
+                                            <i class="fa fa-cloud"></i> Choose File
+                                        </button>
+                                        <input id="additionalImg1" name="additionalImg1" class="form-control"
+                                               type="hidden" th:value="${product.additionalImg1}">
+                                        <img th:src="${product.additionalImg1}" id="uploadImg1" th:style="${product.additionalImg1 != null}?'':'display:none;'" width="100px" height="100px"/>
+                                    </div>
+                                    <label class="col-sm-2 control-label">Carousel Picture 2：</label>
+                                    <div class="col-sm-4">
+                                        <button type="button" class="layui-btn" id="addImg2">
+                                            <i class="fa fa-cloud"></i> Choose File
+                                        </button>
+                                        <input id="additionalImg2" name="additionalImg2" class="form-control"
+                                               type="hidden" th:value="${product.additionalImg2}">
+                                        <img th:value="${product.additionalImg2}" id="uploadImg2" th:style="${product.additionalImg2 != null}?'':'display:none;'" width="100px" height="100px"/>
+                                    </div>
+                                </div>
+                                <!--<div class="form-group">-->
+
+                                <!--</div>-->
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">Carousel Picture 3：</label>
+                                    <div class="col-sm-4">
+                                        <button type="button" class="layui-btn" id="addImg3">
+                                            <i class="fa fa-cloud"></i> Choose File
+                                        </button>
+                                        <input id="additionalImg3" name="additionalImg3" class="form-control"
+                                               type="hidden" th:value="${product.additionalImg3}">
+                                        <img th:src="${product.additionalImg3}" id="uploadImg3" th:style="${product.additionalImg3 != null}?'':'display:none;'" width="100px" height="100px"/>
+                                    </div>
+                                    <label class="col-sm-2 control-label">Carousel Picture 4：</label>
+                                    <div class="col-sm-4">
+                                        <button type="button" class="layui-btn" id="addImg4">
+                                            <i class="fa fa-cloud"></i> Choose File
+                                        </button>
+                                        <input id="additionalImg4" name="additionalImg4" class="form-control"
+                                               type="hidden" th:value="${product.additionalImg4}">
+                                        <img th:src="${product.additionalImg4}" id="uploadImg4" th:style="${product.additionalImg4 != null}?'':'display:none;'" width="100px" height="100px"/>
+                                    </div>
+                                </div>
+                                <!--<div class="form-group">-->
+
+                                <!--</div>-->
+                            </div>
+                            <div class="tab-pane fade" id="tab-4">
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label">Fancy Template：</label>
+                                    <div class="col-sm-8">
+                                        <button type="button" class="layui-btn" id="fancyImage">
+                                            <i class="fa fa-cloud"></i> Choose File
+                                        </button>
+                                        <input id="fancyImg" name="fancyImg" class="form-control"
+                                               type="hidden" th:value="${product.fancyImg}">
+                                        <img th:src="${product.fancyImg}" id="uploadFancyImg" th:style="${product.fancyImg != null}?'':'display:none;'" width="100px" height="100px"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<div th:include="include::footer"></div>
+<link href="/css/layui.css" rel="stylesheet">
+<script src="/js/plugins/layer/layer.min.js"></script>
+<script src="/js/layui.js"></script>
+<script type="text/javascript" src="/js/appjs/product/product/edit.js">
+</script>
+</body>
+</html>

@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="zh_CN" xmlns:th="http://www.thymeleaf.org"
+      xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<meta charset="utf-8">
+<head th:include="product/fancy/include :: header"></head>
+<body class="gray-bg">
+<div class="wrap" id="fpd-manage-products">
+    <h2>
+        Manage Products
+    </h2>
+    <div class="fpd-clearfix">
+
+        <div id="fpd-products" class="fpd-panel">
+            <h3>
+                Products
+                <a href="#" id="fpd-add-product" class="add-new-h2" style="float: none; margin-left: 10px;">Add New</a>
+            </h3>
+
+            <div id="fpd-products-nav" class="fpd-clearfix">
+                <form method="POST">
+                    <span class="description">Filter</span>
+                    <select name="fpd_filter_by" th:field="${filter}" th:value="${filter}">
+                        <option value="ID" th:selected="${filter == 'ID'}">ID</option>
+                        <option value="title" th:selected="${filter == 'title'}">Title</option>
+                    </select>
+                    <select name="fpd_order_by" th:field="${order}" th:value="${order}">
+                        <option value="ASC" th:selected="${order == 'ASC'}">Ascending</option>
+                        <option value="DESC" th:selected="${order == 'DESC'}">Descending</option>
+                    </select>
+                </form>
+                <form method="POST" name="fpd_search_products">
+                    <input type="text" name="fpd_search_products_string" placeholder="Search Products..." />
+                    <input type="submit" class="button button-secondary" value="Search" />
+                </form>
+            </div>
+            <ul id="fpd-products-list">
+                <th:block th:each="item:${productList}">
+                <li th:id="${item.id}" th:attr="data-categories=${item.categoryId}" class="fpd-product-item fpd-clearfix">
+                    <span class="fpd-clearfix">
+                        <span class="fpd-single-image-upload fpd-admin-tooltip" title="Product Thumbnail">
+                            <span class="fpd-remove">
+                                <span class="dashicons dashicons-minus"></span>
+                            </span>
+                            <img th:if="${item.thumbnail != null}" th:src="${item.thumbnail}" />
+                        </span>
+                        <span class="fpd-product-meta">
+                            <span th:text="${item.id}" class="fpd-item-id"></span>
+                            <span th:text="${item.title}" class="fpd-product-title"></span>
+                        </span>
+                    </span>
+                    <span>
+                        <a href="#" class="fpd-add-view fpd-admin-tooltip" title="Add View">
+                            <i class="fpd-admin-icon-add-box"></i>
+                        </a>
+                        <a href="#" class="fpd-edit-product-title fpd-admin-tooltip" title="Edit Title">
+                            <i class="fpd-admin-icon-mode-edit"></i>
+                        </a>
+                        <a href="#" class="fpd-edit-product-options fpd-admin-tooltip" title="Edit Options">
+                            <input type="hidden" class="fpd-product-options fpd-hidden" th:value="${item.options}" />
+                            <i class="fpd-admin-icon-settings"></i>
+                        </a>
+                        <a href="#" class="fpd-export-product fpd-admin-tooltip" title="Export">
+                            <i class="fpd-admin-icon-cloud-download"></i>
+                        </a>
+                        <a href="#" class="fpd-save-as-template fpd-admin-tooltip" title="Save as template">
+                            <i class="fpd-admin-icon-template"></i>
+                        </a>
+                        <a href="#" class="fpd-duplicate-product fpd-admin-tooltip" title="Duplicate">
+                            <i class="fpd-admin-icon-content-copy"></i>
+                        </a>
+                        <a href="#" class="fpd-remove-product fpd-admin-tooltip" title="Delete">
+                            <i class="fpd-admin-icon-bin"></i>
+                        </a>
+                    </span>
+                </li>
+                <ul class="fpd-views-list">
+                    <li th:each="view : ${item.views}" th:id="${view.id}" class="fpd-view-item fpd-clearfix">
+                        <span>
+                            <img th:src="${view.thumbnail}" class="fpd-admin-tooltip" title="View Thumbnail" />
+                            <label th:text="${view.title}"></label>
+                        </span>
+                        <span>
+                            <a th:href="@{'/product/fancy/edit?view_id='+${view.id}}" target="_self" class="fpd-admin-tooltip" title="Edit view in product builder">
+                                <i class="fpd-admin-icon-layers"></i>
+                            </a>
+                            <a href="#" class="fpd-edit-view-title fpd-admin-tooltip" title="Edit Title">
+                                <i class="fpd-admin-icon-mode-edit"></i>
+                            </a>
+                            <a href="#" class="fpd-duplicate-view fpd-admin-tooltip" title="Duplicate">
+                                <i class="fpd-admin-icon-content-copy"></i>
+                            </a>
+                            <a href="#" class="fpd-remove-view fpd-admin-tooltip" title="Delete">
+                                <i class="fpd-admin-icon-bin"></i>
+                            </a>
+                        </span>
+                    </li>
+                </ul>
+                </th:block>
+            </ul>
+            <div class="fpd-ui-blocker"></div>
+        </div>
+        <div id="fpd-categories" class="fpd-panel">
+            <h3>
+                Categories
+                <a href="#" id="fpd-add-category" class="add-new-h2">Add New</a>
+            </h3>
+            <ul id="fpd-categories-list" th:each="item: ${categoryList}">
+                    <li th:id="${item.id}" class="fpd-category-item fpd-clearfix">
+                    <span>
+                        <label>
+                            <input type="checkbox" />
+                            <span class="fpd-category-title" th:text="${item.title}"></span>
+                        </label>
+                    </span>
+                        <span>
+                    <!--<#assign activeFilter="">-->
+                    <!--<#if categoryId?? && categoryId == item.id>-->
+                        <!--<#assign activeFilter=".fpd-active">-->
+                    <!--</#if>-->
+
+                        <a th:href="@{'/product/fancy/list?category_id='+${item.id}}"
+                           th:if="${item.id == categoryId}" class="fpd-filter-category fpd-admin-tooltip fpd-active" title="Show only products of this category">
+                            <i class="fpd-admin-icon-remove-red-eye"></i>
+                        </a>
+                        <a th:href="@{'/product/fancy/list?category_id='+${item.id}}"
+                               th:unless="${item.id == categoryId}" class="fpd-filter-category fpd-admin-tooltip" title="Show only products of this category">
+                            <i class="fpd-admin-icon-remove-red-eye"></i>
+                        </a>
+                        <a href="#" class="fpd-edit-category-title fpd-admin-tooltip" title="Edit Title">
+                            <i class="fpd-admin-icon-mode-edit"></i>
+                        </a>
+                        <a href="#" class="fpd-remove-category fpd-admin-tooltip" title="Delete">
+                            <i class="fpd-admin-icon-bin"></i>
+                        </a>
+                    </span>
+                    </li>
+            </ul>
+            <div class="fpd-ui-blocker"></div>
+
+        </div>
+    </div>
+</div>
+</body>
+</html>

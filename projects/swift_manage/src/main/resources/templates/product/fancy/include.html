@@ -1,0 +1,539 @@
+<head th:fragment="header">
+    <link rel="stylesheet" type="text/css" href="/product_design/css/main.css">
+    <link rel="stylesheet" type="text/css" href="/product_design/css/admin.css">
+    <link rel="stylesheet" type="text/css" href="/product_design/css/icon-font.css">
+    <link rel="stylesheet" type="text/css" href="/product_design/css/select2.min.css">
+    <link rel="stylesheet" type="text/css" href="/product_design/css/radykal-admin.css">
+    <link rel="stylesheet" type="text/css" href="/product_design/css/tagmanager.css">
+    <link rel="stylesheet" type="text/css" href="/product_design/css/FancyProductDesigner-all.min.css" />
+    <link rel="stylesheet" type="text/css" href="/css/plugins/jQueryUI/jquery-ui-1.10.4.custom.min.css">
+    <script src="/js/jquery.min.js" type="text/javascript"></script>
+    <script src="/js/jquery-ui-1.10.4.min.js" type="text/javascript"></script>
+
+    <script src="/product_design/js/product-builder.js" type="text/javascript"></script>
+    <script src="/product_design/js/underscore.min.js" type="text/javascript"></script>
+
+    <script src="/product_design/js/select2.min.js" type="text/javascript"></script>
+    <script src="/product_design/js/tagmanager.js" type="text/javascript"></script>
+    <script src="/product_design/js/selectSortable.js" type="text/javascript"></script>
+    <script src="/product_design/js/radykal-admin.js" type="text/javascript"></script>
+    <script src="/product_design/js/fabric.js" type="text/javascript"></script>
+    <script src="/product_design/js/admin.js" type="text/javascript"></script>
+    <script src="/product_design/js/manage-fancy-designs.js" type="text/javascript"></script>
+    <script src="/product_design/js/manage-fancy-products.js" type="text/javascript"></script>
+    <script src="/product_design/js/FancyProductDesigner-all.js" type="text/javascript"></script>
+    <script src="/product_design/js/jquery.mjs.nestedSortable.js" type="text/javascript"></script>
+    <script src="/product_design/js/backbone.min.js" type="text/javascript"></script>
+    <script src="/product_design/js/wp-util.js" type="text/javascript"></script>
+    <script src="/product_design/js/ace.js" type="text/javascript"></script>
+    <script src="/product_design/js/media-models.js" type="text/javascript"></script>
+    <script src="/product_design/js/jquery.tooltipster.min.js" type="text/javascript"></script>
+</head>
+<div th:fragment="fancyTab" class="radykal-tabs radykal-disabled">
+    <div class="radykal-tabs-nav">
+        <a href="general-options" class="current">General</a>
+        <a href="color-options">Colors</a>
+        <a href="modifications-options">Modifications</a>
+        <a href="bb-options">Bounding Box</a>
+        <a href="text-options">Text</a>
+        <a href="upload-zone-options">Upload Zone</a>
+    </div>
+    <form role="form" id="fpd-elements-form" class="radykal-tabs-content radykal-form">
+
+        <!-- Hidden inputs for parameters set are set to true by default -->
+        <input type="checkbox" name="locked" value="1" class="fpd-hidden" />
+        <input type="checkbox" name="uploadZone" value="1" class="fpd-hidden" />
+
+        <div data-id="general-options" class="current radykal-columns-two">
+
+            <table class="form-table">
+                <tbody>
+                <tr>
+                    <th>Position</th>
+                    <td>
+                        <label>Left: <input type="number" step="1" name="left" placeholder="0" value="" class="fpd-only-numbers"></label>
+                        <br />
+                        <label>Top: <input type="number" step="1" name="top" placeholder="0" value="" class="fpd-only-numbers"></label>
+                    </td>
+                </tr>
+                <tr>
+                    <th>Scale</th>
+                    <td id="fpd-scale">
+                        <label>X: <input type="number" step="0.01" name="scaleX" placeholder="1" value="" class="fpd-only-numbers fpd-allow-dots fpd-text-hidden"></label>
+                        <br />
+                        <label class="radykal-disabled">Y: <input type="number" step="0.01" name="scaleY" placeholder="1" value="" class="fpd-only-numbers fpd-allow-dots fpd-text-hidden"></label>
+                        <i class="fpd-admin-icon-lock" id="fpd-scale-locker"></i>
+                    </td>
+                </tr>
+                <tr>
+                    <th>Angle</th>
+                    <td>
+                        <div class="radykal-input-slider radykal-clearfix">
+                            <div></div>
+                            <input type="number" step="1" min="0" max="359" name="angle" placeholder="0" value="0" class="fpd-only-numbers fpd-upload-zone-hidden" />
+                        </div>
+
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+
+            <table class="form-table">
+                <tbody>
+                <tr>
+                    <th>
+                        Price
+                        <i class="fpd-admin-icon-info-outline fpd-admin-tooltip" title="Always use a dot as the decimal separator!"></i>
+                    </th>
+                    <td>
+                        <input type="number" step="0.01" min="0" name="price" placeholder="0" value="" class="fpd-prevent-whitespace fpd-only-numbers fpd-allow-dots">
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        Replace
+                        <i class="fpd-admin-icon-info-outline fpd-admin-tooltip" title="Elements with the same replace value are replaced by each other."></i>
+                    </th>
+                    <td>
+                        <input type="text" name="replace" value="" class="fpd-upload-zone-hidden large-text">
+                    </td>
+                </tr>
+                <tr>
+                    <th>X-Axis Reference Point</th>
+                    <td>
+							<span class="fpd-originX">
+								<a href="#" class="fpd-originX-left button" data-value="left">
+									<i class="fpd-admin-icon-originX-left"></i>
+								</a>
+								<a href="#" class="fpd-originX-center button" data-value="center">
+									<i class="fpd-admin-icon-originX-center"></i>
+								</a>
+								<a href="#" class="fpd-originX-right button" data-value="right">
+									<i class="fpd-admin-icon-originX-right"></i>
+								</a>
+								<input type="hidden" name="originX" value="center" class="fpd-radio-buttons" />
+							</span>
+                    </td>
+                </tr>
+                <tr>
+                    <th>Y-Axis Reference Point</th>
+                    <td>
+							<span class="fpd-originY">
+								<a href="#" class="fpd-originX-left button" data-value="top">
+									<i class="fpd-admin-icon-originY-top"></i>
+								</a>
+								<a href="#" class="fpd-originX-center button" data-value="center">
+									<i class="fpd-admin-icon-originY-center"></i>
+								</a>
+								<a href="#" class="fpd-originX-right button" data-value="bottom">
+									<i class="fpd-admin-icon-originY-bottom"></i>
+								</a>
+								<input type="hidden" name="originY" value="center" class="fpd-radio-buttons" />
+							</span>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+
+        </div><!-- General Options -->
+
+        <div data-id="color-options">
+
+            <table class="form-table">
+                <tbody>
+                <tr>
+                    <th>
+                        Colorpicker for every path
+                        <i class="fpd-admin-icon-info-outline fpd-admin-tooltip" title="Every path in the SVG gets an own colorpicker"></i>
+                    </th>
+                    <td>
+                        <label><input type="radio" name="colors" value="1" class="fpd-svg-options" /> Yes</label>
+                        <label><input type="radio" name="colors" value="0" checked="checked" class="fpd-svg-options" /> No</label>
+                    </td>
+                </tr>
+                <tr class="fpd-color-options">
+                    <th>
+                        Available Colors
+                        <i class="fpd-admin-icon-info-outline fpd-admin-tooltip" title="One color value: Colorpicker, Multiple color values: Fixed color palette"></i>
+                    </th>
+                    <td>
+                        <input type="text" name="colors" class="tm-input" value="" placeholder="e.g. #000000,#ffffff', 'radykal') ; ?>" size="20" />
+                        <a href="#" class="button button-secondary" id="fpd-add-color">Add', 'radykal') ; ?></a>
+
+                    </td>
+                </tr>
+                <tr class="fpd-color-options">
+                    <th>
+                        Color Link Group
+                        <i class="fpd-admin-icon-info-outline fpd-admin-tooltip" title="You can set color links between elements."></i>
+                    </th>
+                    <td>
+                        <input type="text" name="colorLinkGroup" size="25" value="" class="fpd-upload-zone-hidden" />
+                    </td>
+                </tr>
+                <tr class="fpd-color-options">
+                    <th>Current Color</th>
+                    <td>
+                        <input type="text" name="fill" value="" placeholder="e.g. #000000', 'radykal') ; ?>" class="radykal-color-picker" />
+                    </td>
+                </tr>
+                <tr>
+                    <th>Opacity</th>
+                    <td>
+                        <div class="radykal-input-slider radykal-clearfix">
+                            <div></div>
+                            <input type="number" name="opacity" step="0.01" min="0" max="1" placeholder="1" class="fpd-only-numbers fpd-allow-dots" value="">
+                        </div>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+
+        </div><!--- color options -->
+
+        <div data-id="modifications-options" class="radykal-columns-two">
+
+            <table class="form-table">
+                <tbody>
+                <tr>
+                    <th><label>Removable</label></th>
+                    <td class="radykal-radio-group-inline">
+                        <label><input type="radio" name="removable" value="1" class="fpd-upload-zone-hidden" /> Yes</label>
+                        <label><input type="radio" name="removable" value="0" checked="checked" class="fpd-upload-zone-hidden" /> No</label>
+                    </td>
+                </tr>
+                <tr>
+                    <th><label>Draggable</label></th>
+                    <td class="radykal-radio-group-inline">
+                        <label><input type="radio" name="draggable" value="1"/> Yes</label>
+                        <label><input type="radio" name="draggable" value="0" checked="checked" /> No</label>
+                    </td>
+                </tr>
+                <tr>
+                    <th><label>Rotatable</label></th>
+                    <td class="radykal-radio-group-inline">
+                        <label><input type="radio" name="rotatable" value="1" /> Yes</label>
+                        <label><input type="radio" name="rotatable" value="0" checked="checked" /> No</label>
+                    </td>
+                </tr>
+                <tr>
+                    <th><label>Resizable</label></th>
+                    <td class="radykal-radio-group-inline">
+                        <label><input type="radio" name="resizable" value="1" class="fpd-text-box-hidden" /> Yes</label>
+                        <label><input type="radio" name="resizable" value="0" checked="checked" class="fpd-text-box-hidden" /> No</label>
+                    </td>
+                </tr>
+                <tr>
+                    <th><label>Layer Position Unlockable</label></th>
+                    <td class="radykal-radio-group-inline">
+                        <label><input type="radio" name="zChangeable" value="1" /> Yes</label>
+                        <label><input type="radio" name="zChangeable" value="0" checked="checked" /> No</label>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+
+            <table class="form-table">
+                <tbody>
+                <tr>
+                    <th><label>Stay On Top</label></th>
+                    <td class="radykal-radio-group-inline">
+                        <label><input type="radio" name="topped" value="1" /> Yes</label>
+                        <label><input type="radio" name="topped" value="0" checked="checked" /> No</label>
+                    </td>
+                </tr>
+                <tr>
+                    <th><label>Auto-Select</label></th>
+                    <td class="radykal-radio-group-inline">
+                        <label><input type="radio" name="autoSelect" value="1" /> Yes</label>
+                        <label><input type="radio" name="autoSelect" value="0" checked="checked" /> No</label>
+                    </td>
+                </tr>
+                <tr>
+                    <th>Uni-Scaling Unlockable</th>
+                    <td class="radykal-radio-group-inline">
+                        <label><input type="radio" name="uniScalingUnlockable" value="1" class="fpd-text-hidden" /> Yes</label>
+                        <label><input type="radio" name="uniScalingUnlockable" value="0" checked="checked" class="fpd-text-hidden" /> No</label>
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        <label>Exclude From Export</label>
+                        <br>
+                        <i style="font-size: 10px;">Only available when viewing orders with the new <a href="http://admin.fancyproductdesigner.com" target="_blank">ADMIN solution</a>!</i>
+                    </th>
+                    <td class="radykal-radio-group-inline">
+                        <label><input type="radio" name="excludeFromExport" value="1" /> Yes</label>
+                        <label><input type="radio" name="excludeFromExport" value="0" checked="checked" /> No</label>
+                    </td>
+                </tr>
+                <tr>
+                    <th><label>Advanced Editing</label></th>
+                    <td class="radykal-radio-group-inline">
+                        <label><input type="radio" name="advancedEditing" value="1" /> Yes</label>
+                        <label><input type="radio" name="advancedEditing" value="0" checked="checked" /> No</label>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+
+        </div><!-- Modifications Options -->
+
+        <div data-id="bb-options">
+
+            <table class="form-table">
+                <tbody>
+                <tr>
+                    <th><label for="opt-bounding_box_control">Use another element as bounding box</label></th>
+                    <td>
+                        <input type="checkbox" name="bounding_box_control" id="opt-bounding_box_control" value="1" data-checkedsel="#bounding-box-element" data-uncheckedsel="#boundig-box-custom">
+                    </td>
+                </tr>
+                <tr>
+                    <th>Define Bounding Box</th>
+                    <td>
+                        <div id="boundig-box-custom">
+                            <label>X:</label>
+                            <input type="number" name="bounding_box_x" size="3" placeholder="0" style="margin-right: 15px;" value="">
+                            <label>Y:</label>
+                            <input type="number" name="bounding_box_y" size="3" placeholder="0" value="">
+                            <label>Width:</label>
+                            <input type="number" name="bounding_box_width" size="3" placeholder="0" style="margin-right: 15px;" value="">
+                            <label>Height:</label>
+                            <input type="number" name="bounding_box_height" size="3" placeholder="0" value="">
+                        </div>
+                        <input type="text" id="bounding-box-element" name="bounding_box_by_other" size="40" placeholder="Title of an image element in the same view." style="display: none;" value="" />
+                    </td>
+                </tr>
+                <tr>
+                    <th>Mode</th>
+                    <td>
+                        <select name="boundingBoxMode">
+                            <option value="inside" selected="">Inside</option>
+                            <option value="clipping">Clipping</option>
+                            <option value="limitModify">Limit Modification</option>
+                            <option value="none">None</option>
+                        </select>
+                    </td>
+                </tr>
+
+                </tbody>
+            </table>
+
+        </div><!-- Bounding Box Options -->
+
+        <div data-id="text-options" class="radykal-columns-two">
+
+            <table class="form-table">
+                <tbody>
+                <tr>
+                    <th>Font</th>
+                    <td>
+                        <select name="fontFamily" data-placeholder="Select a font" class="radykal-select2" style="width: 100%">
+                            <option value='demo font' style='font-family:demo font;'>demo font</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <th>Styling</th>
+                    <td>
+							<span class="fpd-text-styling" style="margin-right: 20px;">
+								<a href="#" class="fpd-bold button" data-value="bold">
+									<i class="fpd-admin-icon-format-bold"></i>
+								</a>
+								<a href="#" class="fpd-italic button" data-value="italic">
+									<i class="fpd-admin-icon-format-italic"></i>
+								</a>
+								<a href="#" class="fpd-underline button" data-value="underline">
+									<i class="fpd-admin-icon-format-underline"></i>
+								</a>
+								<input type="checkbox" name="fontWeight" value="bold" data-unchecked="normal" class="fpd-hidden fpd-toggle-button" />
+								<input type="checkbox" name="fontStyle" value="italic" data-unchecked="normal" class="fpd-hidden fpd-toggle-button" />
+								<input type="checkbox" name="textDecoration" value="underline" data-unchecked="normal" class="fpd-hidden fpd-toggle-button" />
+							</span>
+                    </td>
+                </tr>
+                <tr>
+                    <th>Multiline Alignment</th>
+                    <td>
+							<span class="fpd-text-align">
+								<a href="#" class="fpd-align-left button" data-value="left">
+									<i class="fpd-admin-icon-format-align-left"></i>
+								</a>
+								<a href="#" class="fpd-align-center button" data-value="center">
+									<i class="fpd-admin-icon-format-align-center"></i>
+								</a>
+								<a href="#" class="fpd-align-right button" data-value="right">
+									<i class="fpd-admin-icon-format-align-right"></i>
+								</a>
+								<a href="#" class="fpd-align-justify button" data-value="justify">
+									<i class="fpd-admin-icon-format-align-justify"></i>
+								</a>
+								<input type="hidden" name="textAlign" value="left" class="fpd-radio-buttons" />
+							</span>
+                    </td>
+                </tr>
+                <tr>
+                    <th>Font Size</th>
+                    <td><input type="number" name="fontSize" min="1" step="1" placeholder="18" value="" class="fpd-only-numbers"></td>
+                </tr>
+                <tr>
+                    <th>Line Height</th>
+                    <td><input type="number" name="lineHeight" min="0.1" step="0.01" placeholder="1" value="" class="fpd-only-numbers fpd-allow-dots"></td>
+                </tr>
+                <tr>
+                    <th>Letter Spacing</th>
+                    <td><input type="number" name="letterSpacing" min="0" step="1" placeholder="0" value="" class="fpd-only-numbers"></td>
+                </tr>
+                <tr>
+                    <th>Maximum Characters</th>
+                    <td><input type="number" name="maxLength" min="1" step="1" placeholder="0" value="" class="fpd-only-numbers"></td>
+                </tr>
+                <tr>
+                    <th>Maximum Lines</th>
+                    <td><input type="number" name="maxLines" min="1" step="1" placeholder="0" value="" class="fpd-only-numbers"></td>
+                </tr>
+                </tbody>
+            </table>
+
+            <table class="form-table">
+                <tbody>
+                <tr>
+                    <th>Stroke</th>
+                    <td class="">
+                        <div>
+                            <input type="text" name="stroke" value="" placeholder="e.g. #000000', 'radykal') ; ?>" class="radykal-color-picker" />
+                        </div>
+                        <div class="radykal-input-slider radykal-clearfix">
+                            <div></div>
+                            <input type="number" name="strokeWidth" min="0" max="50" step="0.1" placeholder="0" value="" class="fpd-only-numbers fpd-allow-dots" />
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        <label>Editable</label>
+                    </th>
+                    <td class="radykal-radio-group-inline">
+                        <label><input type="radio" name="editable" value="1" /> Yes</label>
+                        <label><input type="radio" name="editable" value="0" checked="checked" /> No</label>
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        <label>Charge After Editing</label>
+                        <i class="fpd-admin-icon-info-outline fpd-admin-tooltip" title="If the text has price, it will be charged first after the text has been edited."></i>
+                    </th>
+                    <td class="radykal-radio-group-inline">
+                        <label><input type="radio" name="chargeAfterEditing" value="1" /> Yes</label>
+                        <label><input type="radio" name="chargeAfterEditing" value="0" checked="checked" /> No</label>
+                    </td>
+                </tr>
+                <!--<tr>
+                    <th>
+                        <label>Patternable</label>
+                    </th>
+                    <td class="radykal-radio-group-inline">
+                        <label><input type="radio" name="patternable" value="1" /> Yes</label>
+                        <label><input type="radio" name="patternable" value="0" checked="checked" /> No</label>
+                    </td>
+                </tr>-->
+                <tr>
+                    <th>
+                        <label>Curvable</label>
+                        <i class="fpd-admin-icon-info-outline fpd-admin-tooltip" title="Allow customer to switch between curvable and normal text."></i>
+                    </th>
+                    <td class="radykal-radio-group-inline">
+                        <label><input type="radio" name="curvable" value="1" class="fpd-text-box-hidden" /> Yes</label>
+                        <label><input type="radio" name="curvable" value="0" checked="checked" class="fpd-text-box-hidden" /> No</label>
+                    </td>
+                </tr>
+                <tr class="fpd-curved-text-opts">
+                    <th>
+                        Curved Text Spacing
+                    </th>
+                    <td>
+                        <input type="checkbox" name="curved" value="1" class="fpd-hidden">
+                        <input type="number" name="curveSpacing" min="0" step="0.1" placeholder="10" class="fpd-only-numbers" value="">
+                    </td>
+                </tr>
+                <tr class="fpd-curved-text-opts">
+                    <th>
+                        Curved Text Radius
+                    </th>
+                    <td>
+                        <input type="number" name="curveRadius"  min="0" step="0.1" placeholder="80" value="" class="fpd-only-numbers">
+                    </td>
+                </tr>
+                <tr class="fpd-curved-text-opts">
+                    <th>
+                        <label for="opt-curveReverse">Curved Text Reverse</label>
+                    </th>
+                    <td>
+                        <input type="checkbox" name="curveReverse" id="opt-curveReverse" value="1">
+                    </td>
+                </tr>
+                <tr class="fpd-text-box-opts">
+                    <th>
+                        Text Box Width
+                    </th>
+                    <td>
+                        <input type="checkbox" name="textBox" value="1" class="fpd-hidden">
+                        <input type="number" name="height" class="fpd-hidden" value="">
+                        <input type="number" name="width" min="0" step="1" class="fpd-only-numbers" value="">
+                    </td>
+                </tr>
+                <#--<?php do_action('fpd_product_builder_text_options_end'); ?>-->
+                </tbody>
+            </table>
+
+        </div><!-- Text Options -->
+
+        <!-- Upload Zone Options -->
+        <div data-id="upload-zone-options">
+            <table class="form-table">
+                <tbody>
+                <tr>
+                    <th><label>Image Uploads</label></th>
+                    <td class="radio-group">
+                        <label><input type="radio" name="adds_uploads" value="1" checked="">Yes</label>
+                        <label><input type="radio" name="adds_uploads" value="0">No</label>
+                    </td>
+                </tr>
+                <tr>
+                    <th><label>Custom Texts</label></th>
+                    <td class="radio-group">
+                        <label><input type="radio" name="adds_texts" value="1" checked="">Yes</label>
+                        <label><input type="radio" name="adds_texts" value="0">No</label>
+                    </td>
+                </tr>
+                <tr>
+                    <th><label>Designs</label></th>
+                    <td class="radio-group">
+                        <label><input type="radio" name="adds_designs" value="1" checked="">Yes</label>
+                        <label><input type="radio" name="adds_designs" value="0">No</label>
+                    </td>
+                </tr>
+                <tr>
+                    <th>Design Categories</th>
+                    <td>
+                        <select multiple="multiple" name="designCategories[]" class="radykal-select2" style="width: 500px;">
+                            <#--<?php fpd_output_top_level_design_cat_options(); ?>-->
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <th>Scale Mode</th>
+                    <td>
+                        <select name="scaleMode">
+                            <option value="fit" selected="">Fit</option>
+                            <option value="cover">Cover</option>
+                        </select>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </form>
+</div><!-- tabs content -->
