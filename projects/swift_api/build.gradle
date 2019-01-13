@@ -1,0 +1,72 @@
+archivesBaseName = 'swift-api'
+
+
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:2.0.5.RELEASE")
+    }
+}
+
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'idea'
+apply plugin: 'org.springframework.boot'
+
+bootJar {
+    baseName = 'swift-rest-service'
+    version =  '0.1.0'
+}
+
+repositories {
+    mavenCentral()
+}
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+dependencies {
+//    compile("org.springframework.boot:spring-boot-starter-web")
+    compile(
+            project(':projects/swift_core')
+    )
+//    testCompile('org.springframework.boot:spring-boot-starter-test')
+//    testCompile('com.jayway.jsonpath:json-path')
+}
+
+//buildscript {
+//    repositories {
+//        mavenCentral()
+//    }
+//    dependencies {
+//        classpath("org.springframework.boot:spring-boot-gradle-plugin:1.5.10.RELEASE")
+//    }
+//}
+//
+//apply plugin: 'org.springframework.boot'
+
+//dependencies {
+//
+//    compile(
+//            project(':projects/swift_core')
+//    )
+//
+//}
+//
+//jar {
+//    baseName = 'swift-api'
+//    version = '0.0.1'
+//    manifest {
+//        attributes "Manifest-Version": 1.0,
+//                'Main-Class': 'com.swift.api.ApiApplication'
+//    }
+//    into('lib') {
+//        from configurations.runtime
+//    }
+//    manifest {
+//        attributes 'Main-Class' : 'com.swift.api.ApiApplication',
+//                'Class-Path': configurations.compile.collect { it.getName()+"/lib" }.join(' ')
+//    }
+//}
