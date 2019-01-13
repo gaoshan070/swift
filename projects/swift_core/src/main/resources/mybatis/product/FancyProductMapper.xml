@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.swift.core.dao.product.FancyProductDao">
+
+    <!--<select id="fancyProducts" resultMap="productMap">-->
+        <!--SELECT fp.*, fv.ID as view_id, fv.title as view_title, fcp.category_id as category_id,-->
+        <!--fv.thumbnail as view_thumbnail, fv.elements as view_elements, fv.options as view_options-->
+        <!--FROM t_fpd_products fp-->
+        <!--LEFT JOIN t_fpd_views fv ON fp.ID = fv.product_id-->
+        <!--LEFT JOIN t_fpd_category_products_rel fcp ON fp.ID = fcp.product_id-->
+        <!--WHERE 1=1-->
+        <!--<if test="category_id!=null and category_id!=''">-->
+            <!--AND fcp.category_id = #{category_id}-->
+        <!--</if>-->
+        <!--<if test="fpd_search_products_string!=null and fpd_search_products_string!=''">-->
+            <!--AND fp.title LIKE "%${fpd_search_products_string}%"-->
+        <!--</if>-->
+        <!--<choose>-->
+            <!--<when test="fpd_filter_by!= null and fpd_filter_by.trim() == 'title'">-->
+                <!--order by fp.title-->
+            <!--</when>-->
+            <!--<otherwise>-->
+                <!--order by fp.ID-->
+            <!--</otherwise>-->
+        <!--</choose>-->
+        <!--<choose>-->
+            <!--<when test="fpd_order_by != null and fpd_order_by !=''">-->
+                <!--${fpd_order_by}-->
+            <!--</when>-->
+            <!--<otherwise>-->
+                <!--ASC-->
+            <!--</otherwise>-->
+        <!--</choose>-->
+    <!--</select>-->
+
+    <!--<insert id="addNewCategory" parameterType="com.swift.core.domain.product.FancyCategoryDO">-->
+        <!--<selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER">-->
+            <!--SELECT LAST_INSERT_ID() AS id-->
+        <!--</selectKey>-->
+        <!--INSERT INTO t_fpd_categories (title)-->
+        <!--VALUE (#{title})-->
+    <!--</insert>-->
+
+    <update id="updateCategory" parameterType="java.util.Map">
+        UPDATE t_fpd_categories SET title=#{title}
+        WHERE ID=#{categoryId}
+    </update>
+
+    <!--<select id="fancyCategories" resultMap="categoryMap">-->
+        <!--SELECT *-->
+        <!--FROM t_fpd_categories-->
+    <!--</select>-->
+
+    <select id="fancyProductCount" resultType="java.lang.Integer">
+        SELECT COUNT(1)
+        FROM t_fpd_products fp
+        LEFT JOIN t_fpd_views fv ON fp.ID = fv.product_id
+        LEFT JOIN t_fpd_category_products_rel fcp ON fp.ID = fcp.product_id
+        WHERE 1=1
+        <if test="categoryId!=null and categoryId!=''">
+            AND fcp.category_id = #{category_id}
+        </if>
+        <if test="title!=null and title!=''">
+            AND fp.title LIKE "%${fpd_search_products_string}%"
+        </if>
+    </select>
+
+    <select id="listView" resultMap="viewMap">
+      SELECT * FROM t_fpd_views
+      <where>
+        <if test="searchName != null and searchName != ''"> and title like "%${serchName}%" </if>
+      </where>
+      <if test="offset != null and limit != null">
+        limit #{offset}, #{limit}
+      </if>
+    </select>
+
+    <select id="countView" resultType="java.lang.Integer">
+        SELECT count(id) FROM t_fpd_views
+        <where>
+            <if test="searchName != null and searchName != ''"> and title like "%${serchName}%" </if>
+        </where>
+    </select>
+
+    <delete id="removeView">
+        delete from t_fpd_views where ID = #{value}
+    </delete>
+    <select id="getFancyViewById" resultMap="viewMap" parameterType="java.lang.Integer">
+        SELECT * FROM t_fpd_views WHERE ID=#{viewId}
+    </select>
+
+    <insert id="addNewView" parameterType="com.swift.core.domain.product.FancyViewDO">
+        <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER">
+            SELECT LAST_INSERT_ID() AS id
+        </selectKey>
+        INSERT INTO t_fpd_views (product_id, title, thumbnail, elements, view_order, options)
+        VALUE (#{productId}, #{title}, #{thumbnail}, #{elements}, 0, #{options})
+    </insert>
+
+    <update id="saveView" parameterType="com.swift.core.domain.product.FancyViewDO">
+        UPDATE t_fpd_views SET elements=#{elements}, title=#{title}
+        WHERE ID=#{id}
+    </update>
+
+    <update id="updateViewOrder" parameterType="java.util.Map">
+        UPDATE t_fpd_views SET view_order=#{viewOrder}
+        WHERE ID=#{viewId}
+    </update>
+
+    <resultMap id="viewMap" type="com.swift.core.domain.product.FancyViewDO">
+        <result column="ID" property="id"/>
+        <result column="title" property="title"/>
+        <result column="product_id" property="productId"/>
+        <result column="thumbnail" property="thumbnail"/>
+        <result column="elements" property="elements"/>
+        <result column="options" property="options"/>
+    </resultMap>
+
+    <!--<resultMap id="categoryMap" type="com.swift.core.domain.product.FancyCategoryDO">-->
+        <!--<result column="ID" property="id"/>-->
+        <!--<result column="title" property="title"/>-->
+    <!--</resultMap>-->
+
+</mapper>

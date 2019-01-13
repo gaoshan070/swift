@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.swift.dao.product.ProductDao">
+
+    <select id="get" resultType="com.swift.core.domain.product.ProductDO">
+        select
+        * from t_product
+        where id = #{value}
+    </select>
+
+    <select id="list" resultType="com.swift.core.domain.product.ProductDO">
+        select * from
+        t_product
+        <where>
+            <if test="catalogId != null and catalogId != ''"> and catalogID = #{catalogId} </if>
+            <if test="name != null and name != ''"> and name = #{name} </if>
+        </where>
+        <if test="offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+    </select>
+
+    <select id="count" resultType="int">
+        select count(*) from t_product
+        <where>
+            <if test="catalogId != null and catalogId != ''"> and catalogID = #{catalogId} </if>
+            <if test="name != null and name != ''"> and name = #{name} </if>
+        </where>
+    </select>
+
+    <insert id="saveAdditionalPics" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO t_product_image (product_id, image_id, sort_order)
+        values
+        <foreach collection="list" item="item" index="index" separator="," >
+            (#{item.productId},#{item.imageId},#{item.sortOrder})
+        </foreach>
+    </insert>
+
+    <insert id="save" parameterType="com.swift.core.domain.product.ProductDO"
+            useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO t_product
+        (name
+        <if test="price !=null and price !=''">
+            ,price
+        </if>
+        <if test="nowPrice !=null and nowPrice !=''">
+            ,nowPrice
+        </if>
+        <if test="picture !=null and picture !=''">
+            ,picture
+        </if>
+        <if test="isnew !=null and isnew !=''">
+            ,isnew
+        </if>
+        <if test="title !=null and title !=''">
+            ,title
+        </if>
+        <if test="description !=null and description !=''">
+            ,description
+        </if>
+        <if test="keywords !=null and keywords !=''">
+            ,keywords
+        </if>
+        <if test="createAccount !=null and createAccount !=''">
+            ,createAccount
+        </if>
+        <if test="createTime !=null and createTime !=''">
+            ,createtime
+        </if>
+        <if test="updateAccount !=null and updateAccount !=''">
+            ,updateAccount
+        </if>
+        <if test="updateTime !=null and updateTime !=''">
+            ,updatetime
+        </if>
+        <if test="status !=null and status !=''">
+            ,status
+        </if>
+        <if test="introduce !=null and introduce !=''">
+            ,introduce
+        </if>
+        <if test="content !=null and content !=''">
+            ,content
+        </if>
+        <if test="isRecommend !=null and isRecommend !=''">
+            ,isRecommend
+        </if>
+        <if test="additionalImg1 !=null and additionalImg1 !=''">
+            ,additionalImg1
+        </if>
+        <if test="additionalImg2 !=null and additionalImg2 !=''">
+            ,additionalImg2
+        </if>
+        <if test="additionalImg3 !=null and additionalImg3 !=''">
+            ,additionalImg3
+        </if>
+        <if test="additionalImg4 !=null and additionalImg4 !=''">
+            ,additionalImg4
+        </if>
+        <if test="fancyImg !=null and fancyImg !=''">
+            ,fancyImg
+        </if>
+        <if test="catalogId !=null and catalogId !=''">
+            ,catalogID
+        </if>
+        <if test="bottleInfo !=null and bottleInfo !=''">
+            ,bottleInfo
+        </if>
+        <if test="labelInfo !=null and labelInfo !=''">
+            ,labelInfo
+        </if>
+        )
+        VALUES (#{name}
+        <if test="price !=null and price !=''">
+            ,#{price}
+        </if>
+        <if test="nowPrice !=null and nowPrice !=''">
+            ,#{nowPrice}
+        </if>
+        <if test="picture !=null and picture !=''">
+            ,#{picture}
+        </if>
+        <if test="isnew !=null and isnew !=''">
+            ,#{isnew}
+        </if>
+        <if test="title !=null and title !=''">
+            ,#{title}
+        </if>
+        <if test="description !=null and description !=''">
+            ,#{description}
+        </if>
+        <if test="keywords !=null and keywords !=''">
+            ,#{keywords}
+        </if>
+        <if test="createAccount !=null and createAccount !=''">
+            ,#{createAccount}
+        </if>
+        <if test="createTime !=null and createTime !=''">
+            ,#{createTime}
+        </if>
+        <if test="updateAccount !=null and updateAccount !=''">
+            ,#{updateAccount}
+        </if>
+        <if test="updateTime !=null and updateTime !=''">
+            ,#{updateTime}
+        </if>
+        <if test="status !=null and status !=''">
+            ,#{status}
+        </if>
+        <if test="introduce !=null and introduce !=''">
+            ,#{introduce}
+        </if>
+        <if test="content !=null and content !=''">
+            ,#{content}
+        </if>
+        <if test="isRecommend !=null and isRecommend !=''">
+            ,#{isRecommend}
+        </if>
+        <if test="additionalImg1 !=null and additionalImg1 !=''">
+            ,#{additionalImg1}
+        </if>
+        <if test="additionalImg2 !=null and additionalImg2 !=''">
+            ,#{additionalImg2}
+        </if>
+        <if test="additionalImg3 !=null and additionalImg3 !=''">
+            ,#{additionalImg3}
+        </if>
+        <if test="additionalImg4 !=null and additionalImg4 !=''">
+            ,#{additionalImg4}
+        </if>
+        <if test="fancyImg !=null and fancyImg !=''">
+            ,#{fancyImg}
+        </if>
+        <if test="catalogId !=null and catalogId !=''">
+            ,#{catalogId}
+        </if>
+        <if test="bottleInfo !=null and bottleInfo !=''">
+            ,#{bottleInfo}
+        </if>
+        <if test="labelInfo !=null and labelInfo !=''">
+            ,#{labelInfo}
+        </if>
+        )
+    </insert>
+
+    <update id="update" parameterType="com.swift.core.domain.product.ProductDO">
+        update t_product
+        <set>
+            <if test="name != null">`name` = #{name}, </if>
+            <if test="introduce != null">`introduce` = #{introduce}, </if>
+            <if test="description != null">`description` = #{description},</if>
+            <if test="price != null">`price` = #{price}, </if>
+            <if test="nowPrice != null">`nowPrice` = #{nowPrice}, </if>
+            <if test="content != null">`content` = #{content},</if>
+            <if test="picture != null">`picture` = #{picture},</if>
+            <if test="additionalImg1 != null">`additionalImg1` = #{additionalImg1},</if>
+            <if test="additionalImg2 != null">`additionalImg2` = #{additionalImg2},</if>
+            <if test="additionalImg3 != null">`additionalImg3` = #{additionalImg3},</if>
+            <if test="additionalImg4 != null">`additionalImg4` = #{additionalImg4},</if>
+            <if test="bottleInfo != null">`bottleInfo` = #{bottleInfo},</if>
+            <if test="labelInfo != null">`labelInfo` = #{labelInfo},</if>
+            <if test="fancyImg != null">`fancyImg` = #{fancyImg},</if>
+            <if test="status != null">`status` = #{status},</if>
+            <if test="isnew != null">`isnew` = #{isnew},</if>
+            <if test="isRecommend != null">`isRecommend` = #{isRecommend},</if>
+            <if test="catalogId != null">`catalogID` = #{catalogId}</if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <delete id="remove">
+        delete from t_product where id = #{value}
+    </delete>
+
+
+</mapper>

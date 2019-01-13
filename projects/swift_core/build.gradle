@@ -1,0 +1,48 @@
+archivesBaseName = 'swift-core'
+
+dependencies {
+
+    compile(
+            libraries.'spring-boot-starter',
+            libraries.'spring-boot-starter-aop',
+            libraries.'spring-boot-starter-web',
+            libraries.'spring-boot-starter-thymeleaf',
+            libraries.'spring-boot-devtools',
+            libraries.'spring-boot-starter-data-redis',
+            libraries.'mybatis-spring-boot-starter',
+            libraries.'shiro-core',
+            libraries.'shiro-spring',
+            libraries.'druid',
+            libraries.'thymeleafShiro',
+            libraries.'ehcache',
+            libraries.'spring-boot-starter-cache',
+            libraries.'guava',
+            libraries.'commons-lang',
+            libraries.'commons-lang3',
+            libraries.'commons-io',
+            libraries.'commons-configuration',
+            libraries.'jsoup',
+            libraries.'fastjson',
+            libraries.'velocity',
+            libraries.'gson',
+            libraries.'javamail',
+            libraries.'redis'
+    )
+
+    testCompile (
+            libraries.'spring-boot-starter-test',
+            libraries.'junit'
+    )
+
+    compile (libraries.'ehcacheShiro')
+            {
+                exclude group: 'net.sf.ehcache'
+            }
+
+    compile (libraries.'quartz')
+            {
+                exclude group: 'slf4j-api'
+            }
+
+
+}

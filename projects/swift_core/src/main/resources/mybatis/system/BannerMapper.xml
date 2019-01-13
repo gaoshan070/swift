@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.swift.core.dao.system.BannerDao">
+
+    <select id="get" resultType="com.swift.core.domain.system.BannerDO">
+        select
+        * from t_banner
+        where id = #{value}
+    </select>
+
+    <select id="list" resultType="com.swift.core.domain.system.BannerDO">
+        SELECT id,pos,title,pcImage,mobileImage,pcUrl,pcBgColor,pcFontColor,status,createTime,startTime,endTime,content
+        FROM t_banner
+        <where>
+            <if test="id != null and id != ''"> and id = #{bannerId} </if>
+            <if test="title != null and title != ''"> and title LIKE CONCAT('%',#{title},'%') </if>
+            <if test="status != null and status != ''"> and status = #{status} </if>
+        </where>
+        ORDER BY pos ASC
+        <if test="offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+    </select>
+
+    <select id="count" resultType="int">
+        select count(*) from t_banner
+        <where>
+            <if test="id != null and id != ''"> and id = #{id} </if>
+            <if test="type != null and type != ''"> and type = #{type} </if>
+            <if test="title != null and title != ''"> and title LIKE CONCAT('%',#{title},'%') </if>
+            <if test="status != null and status != ''"> and status = #{status} </if>
+        </where>
+    </select>
+
+    <insert id="save" parameterType="com.swift.core.domain.system.BannerDO"
+            useGeneratedKeys="true" keyProperty="deptId">
+       INSERT INTO t_banner
+        (pos,title,pcImage,mobileImage,pcUrl,pcBgColor,pcFontColor, type,
+        status)
+        VALUES
+        (#{pos},#{title},#{pcImage},#{mobileImage},#{pcUrl},#{pcBgColor},#{pcFontColor},type,
+        1)
+    </insert>
+
+    <update id="update" parameterType="com.swift.core.domain.system.BannerDO">
+        update t_banner
+        <set>
+            <if test="pos !=null and pos !=''">pos=#{pos},</if>
+            <if test="title !=null and title !=''">title=#{title},</if>
+            <if test="pcImage !=null and pcImage !=''">pcImage=#{pcImage},</if>
+            <if test="mobileImage !=null and mobileImage !=''">mobileImage=#{mobileImage},</if>
+            <if test="pcUrl !=null and pcUrl !=''">pcUrl=#{pcUrl},</if>
+            <if test="type !=null and type !=''">type=#{type},</if>
+            <if test="pcBgColor !=null and pcBgColor !=''">pcBgColor=#{pcBgColor},</if>
+            <if test="pcFontColor !=null and pcFontColor !=''">pcFontColor=#{pcFontColor}</if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <delete id="remove">
+        delete from t_banner where id = #{value}
+    </delete>
+
+    <delete id="batchRemove">
+        delete from t_banner where id in
+        <foreach item="bannerId" collection="array" open="(" separator=","
+                 close=")">
+            #{bannerId}
+        </foreach>
+    </delete>
+</mapper>

@@ -1,0 +1,261 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.swift.core.dao.product.OrderDao">
+
+    <select id="get" resultType="com.swift.core.domain.product.OrderDO">
+        select
+        * from t_order
+        where id = #{value}
+    </select>
+
+    <select id="list" resultType="com.swift.core.domain.product.OrderDO">
+        SELECT id,amount,ptotal,fee,account,createdate,status,paystatus,quantity,refundStatus,remark,refundInfo FROM t_order WHERE
+        1=1
+        <if test="id!=null and id!=''">
+            AND id=#{orderId}
+        </if>
+        <if test="null!= pids and pids.size() > 0">
+            AND id IN
+            <foreach collection="pids" item="item" open="(" close=")" separator=",">
+                #{item}
+            </foreach>
+        </if>
+        <if test="account!=null and account!=''">
+            AND account=#{account}
+        </if>
+        <if test="status!=null and status!=''">
+            AND status=#{status}
+        </if>
+        <if test='refundStatus=="y"'>
+            AND refundStatus=#{refundStatus}
+        </if>
+        <if test='refundStatus=="n"'>
+            AND refundStatus IS NULL
+        </if>
+        <if test="paystatus!=null and paystatus!=''">
+            AND paystatus=#{paystatus}
+        </if>
+        <if test="startDate!=null and startDate!=''">
+            AND CAST(createdate AS DATE) &gt;= #{startDate}
+        </if>
+        <if test="endDate!=null and endDate!=''">
+            AND CAST(createdate AS DATE) &lt;= #{endDate}
+        </if>
+        <if test="payType and payType!=''">
+            AND payType = #{payType}
+        </if>
+        <if test="startDatePay!=null and startDatePay!=''">
+            AND CAST(payDateTime AS DATE) &gt;= #{startDatePay}
+        </if>
+        <if test="endDatePay!=null and endDatePay!=''">
+            AND CAST(payDateTime AS DATE) &lt;= #{endDatePay}
+        </if>
+        <if test="offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+    </select>
+
+    <select id="count" resultType="int" parameterType="com.swift.core.domain.product.OrderDO">
+        SELECT COUNT(1) FROM t_order WHERE 1=1
+        <if test="id!=null and id!=''">
+            AND id=#{id}
+        </if>
+        <if test="null!= pids and pids.size() > 0">
+
+            AND id IN
+            <foreach collection="pids" item="item" open="(" close=")" separator=",">
+                #{item}
+            </foreach>
+        </if>
+        <if test="account!=null and account!=''">
+            AND account=#{account}
+        </if>
+        <if test="status!=null and status!=''">
+            AND status=#{status}
+        </if>
+        <if test='refundStatus=="y"'>
+            AND refundStatus=#{refundStatus}
+        </if>
+        <if test='refundStatus=="n"'>
+            AND refundStatus IS NULL
+        </if>
+        <if test="paystatus!=null and paystatus!=''">
+            AND paystatus=#{paystatus}
+        </if>
+        <if test="startDate!=null and startDate!=''">
+            AND CAST(createdate AS DATE) &gt;= #{startDate}
+        </if>
+        <if test="endDate!=null and endDate!=''">
+            AND CAST(createdate AS DATE) &lt;= #{endDate}
+        </if>
+        <if test="payType and payType!=''">
+            AND payType = #{payType}
+        </if>
+        <if test="startDatePay!=null and startDatePay!=''">
+            AND CAST(payDateTime AS DATE) &gt;= #{startDatePay}
+        </if>
+        <if test="endDatePay!=null and endDatePay!=''">
+            AND CAST(payDateTime AS DATE) &lt;= #{endDatePay}
+        </if>
+    </select>
+
+    <insert id="save" parameterType="com.swift.core.domain.product.OrderDO"
+            useGeneratedKeys="true" keyProperty="id">
+        insert into t_order
+        (
+        id,createdate,status,paystatus
+        <if test="account!=null and account!=''">
+            ,account
+        </if>
+        <if test="invoiceType!=null and invoiceType!=''">
+            ,invoiceType
+        </if>
+        <if test="invoiceInfo!=null and invoiceInfo!=''">
+            ,invoiceInfo
+        </if>
+        <if test="rebate!=null and rebate!=''">
+            ,rebate
+        </if>
+        <if test="remark!=null and remark!=''">
+            ,remark
+        </if>
+        <if test="amount!=null">
+            ,amount
+        </if>
+        <if test="ptotal!=null">
+            ,ptotal
+        </if>
+        <if test="quantity!=0">
+            ,quantity
+        </if>
+        <if test="fee!=null">
+            ,fee
+        </if>
+        <if test="expressCode!=null and expressCode!=''">
+            ,expressCode
+        </if>
+        <if test="expressName!=null and expressName!=''">
+            ,expressName
+        </if>
+        <if test="otherRequirement!=null and otherRequirement!=''">
+            ,otherRequirement
+        </if>
+        <if test="benefit!=null and benefit!=''">
+            ,benefit
+        </if>
+        )
+        values
+        (
+        #{id},now(),#{status},#{paystatus}
+        <if test="account !=null and account !=''">
+            ,#{account}
+        </if>
+        <if test="invoiceType!=null and invoiceType!=''">
+            ,#{invoiceType}
+        </if>
+        <if test="invoiceInfo!=null and invoiceInfo!=''">
+            ,#{invoiceInfo}
+        </if>
+        <if test="rebate !=null and rebate !=''">
+            ,#{rebate}
+        </if>
+        <if test="remark !=null and remark !=''">
+            ,#{remark}
+        </if>
+        <if test="amount!=null">
+            ,#{amount}
+        </if>
+        <if test="ptotal!=null">
+            ,#{ptotal}
+        </if>
+        <if test="quantity!=0">
+            ,#{quantity}
+        </if>
+        <if test="fee!=null">
+            ,#{fee}
+        </if>
+        <if test="expressCode!=null and expressCode!=''">
+            ,#{expressCode}
+        </if>
+        <if test="expressName!=null and expressName!=''">
+            ,#{expressName}
+        </if>
+        <if test="otherRequirement!=null and otherRequirement!=''">
+            ,#{otherRequirement}
+        </if>
+        <if test="closedComment!=null and closedComment!=''">
+            ,#{closedComment}
+        </if>
+        <if test="benefit!=null and benefit!=''">
+            ,#{benefit}
+        </if>
+        )
+    </insert>
+
+    <update id="update" parameterType="com.swift.core.domain.product.OrderDO">
+        UPDATE t_order SET id=#{id}
+        <if test="expressCode !=null and expressCode !=''">
+            ,expressCode=#{expressCode}
+        </if>
+        <if test="expressNo !=null and expressNo !=''">
+            ,expressNo=#{expressNo}
+        </if>
+        <if test="expressCompanyName !=null and expressCompanyName !=''">
+            ,expressCompanyName=#{expressCompanyName}
+        </if>
+        <if test="sendDatetime !=null and sendDatetime !=''">
+            ,sendDatetime=#{sendDatetime}
+        </if>
+        <if test="status !=null and status !=''">
+            ,status=#{status}
+        </if>
+
+        <if test="refundStatus !=null and refundStatus !=''">
+            ,refundStatus=#{refundStatus}
+        </if>
+        <if test="refundDatetime !=null and refundDatetime !=''">
+            ,refundDatetime=#{refundDatetime}
+        </if>
+        <if test="refundInfo !=null and refundInfo !=''">
+            ,refundInfo=#{refundInfo}
+        </if>
+        <if test="doneDatetime !=null and doneDatetime !=''">
+            ,doneDatetime=#{doneDatetime}
+        </if>
+        <if test="paystatus!=null and paystatus!=''">
+            ,paystatus=#{paystatus}
+        </if>
+        <if test="payType!=null and payType!=''">
+            ,payType=#{payType}
+        </if>
+        <if test="payDatetime!=null and payDatetime!=''">
+            ,payDatetime=#{payDatetime}
+        </if>
+        <if test="doneDatetime!=null and doneDatetime!=''">
+            ,doneDatetime=#{doneDatetime}
+        </if>
+        <if test="cancelDatetime!=null and cancelDatetime!=''">
+            ,cancelDatetime=#{cancelDatetime}
+        </if>
+        WHERE id=#{id}
+    </update>
+
+
+
+    <!--<select id="selectByAccount" resultType="com.swift.core.domain.product.OrderDO">-->
+        <!--select * from t_order where account=#{value} order by createdate desc limit 1-->
+    <!--</select>-->
+
+    <select id="orderDetail" resultType="com.swift.core.domain.product.OrderDO">
+        SELECT account,od.id id,amount,createdate,fee,payType,od.paystatus
+        paystatus,expressCompanyName,expressCode,expressNo,benefit,
+        cancelDatetime,payDatetime,sendDatetime,doneDatetime,refundDatetime,invoiceInfo,op.tradeNo tradeNo FROM t_order
+        od LEFT JOIN t_orderpay op on od.id=op.orderid where od.id=#{value}
+    </select>
+
+    <select id="orderInfos" resultType="com.swift.core.domain.product.OrderInfoDO">
+        SELECT tp.name name,tp.productType productType,tp.nowPrice nowPrice,od.number number,od.fee fee, od.total0 total0, od.picture picture from t_orderdetail od
+        LEFT JOIN t_product tp ON od.productID=tp.id where od.orderID=#{value}
+    </select>
+</mapper>

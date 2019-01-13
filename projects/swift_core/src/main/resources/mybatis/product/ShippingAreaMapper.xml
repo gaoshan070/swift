@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.swift.dao.product.ShippingAreaDao">
+
+    <select id="get" resultType="com.swift.core.domain.product.ShippingAreaDO">
+        select
+        * from t_shipping_area
+        where id = #{value}
+    </select>
+
+    <select id="list" resultType="com.swift.core.domain.product.ShippingAreaDO">
+        select * from
+        t_shipping_area
+        <where>
+            <if test="id != null and id != ''"> and id = #{id} </if>
+            <if test="countryCode != null and countryCode != ''"> and country_code = #{countryCode} </if>
+            <if test="area != null and area != ''"> and area = #{area} </if>
+            <if test="shippingFee != null and shippingFee != ''"> and shipping_fee = #{shippingFee} </if>
+        </where>
+        order by country_code desc
+        <if test="offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+    </select>
+
+    <select id="count" resultType="int">
+        select count(*) from t_shipping_area
+        <where>
+            <if test="id != null and id != ''"> and id = #{id} </if>
+            <if test="countryCode != null"> and country_code = #{countryCode} </if>
+            <if test="area != null"> and area = #{area} </if>
+            <if test="shippingFee != null"> and shipping_fee = #{shippingFee} </if>
+        </where>
+    </select>
+
+    <insert id="save" parameterType="com.swift.core.domain.product.ShippingAreaDO"
+            useGeneratedKeys="true" keyProperty="id">
+        insert into t_shipping_area
+        (
+          country_code, area, shipping_fee
+        )
+        values
+        (
+        #{countryCode}, #{area}, #{shippingFee}
+        )
+    </insert>
+
+    <update id="update" parameterType="com.swift.core.domain.product.ShippingAreaDO">
+        update t_shipping_area
+        <set>
+            <if test="countryCode != null">`country_code` = #{countryCode}, </if>
+            <if test="area != null">`area` = #{area}, </if>
+            <if test="shippingFee != null">`shipping_fee` = #{shippingFee}, </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <delete id="remove">
+        delete from t_shipping_area where id = #{value}
+    </delete>
+
+</mapper>

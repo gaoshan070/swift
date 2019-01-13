@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.swift.core.dao.product.CategoryDao">
+
+    <select id="get" resultType="com.swift.core.domain.product.CategoryDO">
+        select
+        * from t_catalog
+        where id = #{value}
+    </select>
+
+    <select id="list" resultType="com.swift.core.domain.product.CategoryDO">
+        select * from
+        t_catalog
+        <where>
+            <if test="id != null and id != ''"> and id = #{id} </if>
+            <if test="pid != null and pid != ''"> and pid = #{pid} </if>
+            <if test="name != null and name != ''"> and name = #{name} </if>
+            <if test="order1 != null and order1 != ''"> and order1 = #{order1} </if>
+        </where>
+        order by id desc
+        <if test="offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+    </select>
+
+    <select id="count" resultType="int">
+        select count(*) from t_catalog
+        <where>
+            <if test="id != null and id != ''"> and id = #{id} </if>
+            <if test="pid != null and pid != ''"> and pid = #{pid} </if>
+            <if test="name != null and name != ''"> and name = #{name} </if>
+            <if test="order1 != null and order1 != ''"> and order1 = #{order1} </if>
+        </where>
+    </select>
+
+    <insert id="save" parameterType="com.swift.core.domain.product.CategoryDO"
+            useGeneratedKeys="true" keyProperty="id">
+        insert into t_catalog
+        (
+        pid, type
+        <if test="name!=null and name!=''">
+            ,name
+        </if>
+        <if test="code!=null and code!=''">
+            ,code
+        </if>
+        <if test="type !=null and type !=''">
+            ,type
+        </if>
+        <if test="showInNav !=null and showInNav !=''">
+            ,showInNav
+        </if>
+        <if test="order1!=0">
+            ,order1
+        </if>
+        )
+        values
+        (
+        #{pid}, "p"
+        <if test="name !=null and name !=''">
+            ,#{name}
+        </if>
+        <if test="code!=null and code!=''">
+            ,#{code}
+        </if>
+        <if test="type !=null and type !=''">
+            ,#{type}
+        </if>
+        <if test="showInNav !=null and showInNav !=''">
+            ,#{showInNav}
+        </if>
+        <if test="order1 !=0">
+            ,#{order1}
+        </if>
+        )
+    </insert>
+
+    <update id="update" parameterType="com.swift.core.domain.product.CategoryDO">
+        update t_catalog
+        <set>
+            <if test="pid != null">`pid` = #{pid}, </if>
+            <if test="name != null">`name` = #{name}, </if>
+            <if test="order1 != null">`order1` = #{order1}, </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <delete id="remove">
+        delete from t_catalog where id = #{value}
+    </delete>
+
+    <!--<delete id="batchRemove">-->
+        <!--delete from t_catalog where dept_id in-->
+        <!--<foreach item="deptId" collection="array" open="(" separator=","-->
+                 <!--close=")">-->
+            <!--#{deptId}-->
+        <!--</foreach>-->
+    <!--</delete>-->
+
+    <select id="listParentCategory" resultType="long">
+        select DISTINCT pid from t_catalog
+    </select>
+
+    <select id="getChildCategoryNumber" resultType="int">
+        select count(*) from t_catalog where pid = #{value}
+    </select>
+
+    <select id="getCategoryProductNumber" resultType="int">
+        select count(*) from t_product where catalogID = #{value}
+    </select>
+    
+    <insert id="saveProductPrice" useGeneratedKeys="true" keyProperty="id">
+        insert into t_product_amount (amount, price, catalog_id, price_with_bottle)
+        values
+        <foreach item="item" index="index" collection="list"
+                 separator=",">
+            (#{item.amount},#{item.price},#{item.catalogId}, #{item.priceWithBottle})
+        </foreach>
+    </insert>
+
+    <insert id="saveProductAmount" useGeneratedKeys="true" keyProperty="id">
+        insert into t_product_amount (amount, price, catalog_id, price_with_bottle)
+        values (#{amount}, #{price}, #{catalogId}, #{priceWithBottle})
+    </insert>
+
+    <update id="updateProductAmount" parameterType="com.swift.core.domain.product.CategoryDO">
+        update t_product_amount
+        <set>
+            <if test="amount != null">`amount` = #{amount}, </if>
+            <if test="price != null">`price` = #{price}, </if>
+            <if test="priceWithBottle != null">`price_with_bottle` = #{priceWithBottle}, </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <select id="priceList" resultType="com.swift.core.domain.product.ProductAmountDO">
+        select * from
+        t_product_amount
+        where catalog_id = #{value}
+        order by amount asc
+    </select>
+
+    <select id="getProductAmount" resultType="com.swift.core.domain.product.ProductAmountDO">
+        select * from t_product_amount
+        where id = #{value}
+    </select>
+
+</mapper>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.swift.dao.product.OrderShipDao">
+
+    <select id="get" resultMap="orderShipResultMap">
+        select
+        * from t_ordership
+        where orderid = #{value}
+    </select>
+
+    <resultMap id="orderShipResultMap" type="com.swift.core.domain.product.OrderShipDO">
+        <result property="id" column="id"/>
+        <result property="orderId" column="orderid"/>
+        <result property="shipName" column="shipname"/>
+        <result property="shipAddress" column="shipaddress"/>
+        <result property="province" column="province"/>
+        <result property="city" column="city"/>
+        <result property="area" column="area"/>
+        <result property="phone" column="phone"/>
+        <result property="tel" column="tel"/>
+    </resultMap>
+</mapper>
