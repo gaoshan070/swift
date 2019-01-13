@@ -1,0 +1,4 @@
+rootProject.name = 'com.swift'
+
+include 'projects/swift_core','projects/swift_api', 'projects/swift_manage'
+
